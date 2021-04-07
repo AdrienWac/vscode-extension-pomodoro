@@ -36,6 +36,21 @@ export function activate(context: vscode.ExtensionContext) {
 		// Affichage du contenu de la webView
 		panel.webview.html = getHtmlContent(cssFileUri);
 
+		// Récupération des messages de la webView
+		panel.webview.onDidReceiveMessage(
+			message => {
+
+				switch (message.command) {
+					case 'alert':
+						vscode.window.showInformationMessage(message.text);
+						break;
+				}
+
+			},
+			undefined,
+			context.subscriptions
+		)
+
 		// Fermeture de la webView
 		panel.onDidDispose(closeWebView, null, context.subscriptions);
 
@@ -117,11 +132,15 @@ function getHtmlContent(cssFileUri: vscode.Uri): string
 			<p id="counter">0</p>
 
 			<script>
+				
+				const vscode = acquireVsCodeApi();
 
 				var counter = document.getElementById('counter');
 				var count = 0;
 				var interval = undefined;
 
+
+				// Récupération des messages de l'extension
 				window.addEventListener('message', event => {
 
 					let message = event.data;
@@ -129,16 +148,29 @@ function getHtmlContent(cssFileUri: vscode.Uri): string
 					switch (message.command) {
 						
 						case 'start':
+
 							interval = setInterval(() => {
+
 								counter.textContent = count++;
+								if (count%10 === 0) {
+									console.log(vscode);
+									vscode.postMessage({
+										command: 'alert',
+										text: 'Dont forget to stop the counter. His current value is ' + count
+									})
+
+								}
+
 							}, 100);
+
 							break;
 
 						case 'stop':
-							console.log(interval);
+
 							if (interval) {
 								clearInterval(interval);
 							}
+
 							break;
 						
 					}
