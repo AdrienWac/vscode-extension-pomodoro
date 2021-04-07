@@ -132,7 +132,7 @@ function getHtmlContent(cssFileUri: vscode.Uri, webview: vscode.Webview): string
 
 		<head>
 			<meta charset="UTF-8">
-			<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${webview.cspSource}';">
+			<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${webview.cspSource} https:; style-src ${webview.cspSource}; script-src 'nonce-${webview.cspSource}';">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<link rel="stylesheet" type="text/css" href="${cssFileUri}">
 			<title>Cat Coding</title>
