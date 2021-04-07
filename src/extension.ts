@@ -17,7 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('vscode-extension-pomodoro.open', () => {
+	let commandOpen = vscode.commands.registerCommand('vscode-extension-pomodoro.open', () => {
 		
 		// Si webView déjà existante, on l'affiche à l'utilisateur
 		if (panel) {
@@ -41,7 +41,33 @@ export function activate(context: vscode.ExtensionContext) {
 
 	});
 
-	context.subscriptions.push(disposable);
+
+	let commandStart = vscode.commands.registerCommand('vscode-extension-pomodoro.start', () => {
+
+		if(!panel) {
+			return;
+		}
+
+		// Envoi d'un message à la webView
+		panel.webview.postMessage({ command: 'start' });
+
+	});
+
+	let commandStop = vscode.commands.registerCommand('vscode-extension-pomodoro.stop', () => {
+
+		if (!panel) {
+			return;
+		}
+
+		// Envoi d'un message à la webView
+		panel.webview.postMessage({ command: 'stop' });
+
+	});
+
+	context.subscriptions.push(commandOpen);
+	context.subscriptions.push(commandStart);
+	context.subscriptions.push(commandStop);
+
 }
 
 // this method is called when your extension is deactivated
@@ -74,37 +100,55 @@ function closeWebView(): void
 function getHtmlContent(cssFileUri: vscode.Uri): string
 {
 	return `<!DOCTYPE html>
+
 	<html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" href="${cssFileUri}">
-		<title>Cat Coding</title>
-	</head>
-	<body>
-		<h1>Pomodoro Timer</h1>
-		<p id="counter">0</p>
 
-		<script>
+		<head>
+			<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<link rel="stylesheet" type="text/css" href="${cssFileUri}">
+			<title>Cat Coding</title>
+		</head>
 
-			const counter = document.getElementById('counter');
-			let count = 0;
+		<body>
 
-			const interval = setInterval(() => {
-				counter.textContent = count++;
-				if (count > 10) {
-					clearInterval(interval);
-				}
-			}, 100);
+			<h1>Pomodoro Timer</h1>
 
-			console.log(count);
-			
+			<p id="counter">0</p>
 
-			
+			<script>
 
-		</script>
+				var counter = document.getElementById('counter');
+				var count = 0;
+				var interval = undefined;
 
-	</body>
+				window.addEventListener('message', event => {
+
+					let message = event.data;
+
+					switch (message.command) {
+						
+						case 'start':
+							interval = setInterval(() => {
+								counter.textContent = count++;
+							}, 100);
+							break;
+
+						case 'stop':
+							console.log(interval);
+							if (interval) {
+								clearInterval(interval);
+							}
+							break;
+						
+					}
+
+				});
+
+			</script>
+
+		</body>
+
 	</html>`;
 }
 
