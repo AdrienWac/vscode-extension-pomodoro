@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import { worker } from 'node:cluster';
 import * as vscode from 'vscode';
+import * as path from 'path';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -26,12 +27,18 @@ export function activate(context: vscode.ExtensionContext) {
 			panel = createWebView();
 		}
 
+		// Génération de l'uri pour le style css
+		const pathToCssFile = vscode.Uri.file(
+			path.join(context.extensionPath, 'assets', 'css','main.css')
+		);
+		const cssFileUri = panel.webview.asWebviewUri(pathToCssFile);
+
 		// Affichage du contenu de la webView
-		panel.webview.html = getHtmlContent('Hello Pomodoro Timer');
+		panel.webview.html = getHtmlContent(cssFileUri);
 
 		// Fermeture de la webView
 		panel.onDidDispose(closeWebView, null, context.subscriptions);
-		
+
 	});
 
 	context.subscriptions.push(disposable);
@@ -62,17 +69,19 @@ function closeWebView(): void
 	
 }
 
-function getHtmlContent(title: string): string
+function getHtmlContent(cssFileUri: vscode.Uri): string
 {
 	return `<!DOCTYPE html>
 	<html lang="en">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="${cssFileUri}">
 		<title>Cat Coding</title>
 	</head>
 	<body>
-		<h1>${title}</h1>
+		<h1>Pomodoro Timer</h1>
 	</body>
 	</html>`;
 }
+
