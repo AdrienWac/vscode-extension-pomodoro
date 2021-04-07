@@ -24,7 +24,19 @@ export function activate(context: vscode.ExtensionContext) {
 			panel.reveal();
 		} else {
 			// Sinon création de la webView
-			panel = createWebView();
+			panel = vscode.window.createWebviewPanel(
+				'pomodoroTimer',
+				'Pomodoro Timer',
+				vscode.ViewColumn.One,
+				{
+					enableScripts: true,
+					localResourceRoots: [
+						vscode.Uri.file(
+							path.join(context.extensionPath, 'assets')
+						)
+					]
+				}
+			);
 		}
 
 		// Génération de l'uri pour le style css
@@ -34,7 +46,7 @@ export function activate(context: vscode.ExtensionContext) {
 		const cssFileUri = panel.webview.asWebviewUri(pathToCssFile);
 
 		// Affichage du contenu de la webView
-		panel.webview.html = getHtmlContent(cssFileUri);
+		panel.webview.html = getHtmlContent(cssFileUri, panel.webview);
 
 		// Récupération des messages de la webView
 		panel.webview.onDidReceiveMessage(
@@ -112,7 +124,7 @@ function closeWebView(): void
 	
 }
 
-function getHtmlContent(cssFileUri: vscode.Uri): string
+function getHtmlContent(cssFileUri: vscode.Uri, webview: vscode.Webview): string
 {
 	return `<!DOCTYPE html>
 
@@ -120,6 +132,7 @@ function getHtmlContent(cssFileUri: vscode.Uri): string
 
 		<head>
 			<meta charset="UTF-8">
+			<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${webview.cspSource}';">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<link rel="stylesheet" type="text/css" href="${cssFileUri}">
 			<title>Cat Coding</title>
@@ -132,7 +145,7 @@ function getHtmlContent(cssFileUri: vscode.Uri): string
 			<p id="counter">0</p>
 
 			<script>
-				
+
 				(function () {
 
 					const vscode = acquireVsCodeApi();
