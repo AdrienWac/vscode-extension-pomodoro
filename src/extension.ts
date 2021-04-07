@@ -1,10 +1,13 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
+import { worker } from 'node:cluster';
 import * as vscode from 'vscode';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+
+	let panel: vscode.WebviewPanel | undefined = undefined;
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
@@ -13,12 +16,22 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('vscode-extension-pomodoro.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
+	let disposable = vscode.commands.registerCommand('vscode-extension-pomodoro.open', () => {
+		
+		// Si webView déjà existante, on l'affiche à l'utilisateur
+		if (panel) {
+			panel.reveal();
+		} else {
+			// Sinon création de la webView
+			panel = createWebView();
+		}
 
-		// Display a message box to the user
-		const message = "oui"
-		vscode.window.showInformationMessage('Hello World from PomodoroTimer!');
+		// Affichage du contenu de la webView
+		panel.webview.html = getHtmlContent('Hello Pomodoro Timer');
+
+		// Fermeture de la webView
+		panel.onDidDispose(closeWebView, null, context.subscriptions);
+		
 	});
 
 	context.subscriptions.push(disposable);
@@ -26,3 +39,40 @@ export function activate(context: vscode.ExtensionContext) {
 
 // this method is called when your extension is deactivated
 export function deactivate() {}
+
+/**
+ * Création d'une web view
+ * @returns 
+ */
+function createWebView(): vscode.WebviewPanel
+{
+	
+	return vscode.window.createWebviewPanel(
+		'pomodoroTimer',
+		'Pomodoro Timer',
+		vscode.ViewColumn.One,
+		{}
+	);
+
+}
+
+function closeWebView(): void
+{
+	console.log('close web view');
+	
+}
+
+function getHtmlContent(title: string): string
+{
+	return `<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Cat Coding</title>
+	</head>
+	<body>
+		<h1>${title}</h1>
+	</body>
+	</html>`;
+}
