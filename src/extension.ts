@@ -58,7 +58,9 @@ function createWebView(): vscode.WebviewPanel
 		'pomodoroTimer',
 		'Pomodoro Timer',
 		vscode.ViewColumn.One,
-		{}
+		{
+			enableScripts: true
+		}
 	);
 
 }
@@ -81,6 +83,27 @@ function getHtmlContent(cssFileUri: vscode.Uri): string
 	</head>
 	<body>
 		<h1>Pomodoro Timer</h1>
+		<p id="counter">0</p>
+
+		<script>
+
+			const counter = document.getElementById('counter');
+			let count = 0;
+
+			const interval = setInterval(() => {
+				counter.textContent = count++;
+				if (count > 10) {
+					clearInterval(interval);
+				}
+			}, 100);
+
+			console.log(count);
+			
+
+			
+
+		</script>
+
 	</body>
 	</html>`;
 }
