@@ -45,8 +45,14 @@ export function activate(context: vscode.ExtensionContext) {
 		);
 		const cssFileUri = panel.webview.asWebviewUri(pathToCssFile);
 
+		// Génération de l'uri pour le script js
+		const pathToJsFile = vscode.Uri.file(
+			path.join(context.extensionPath, 'assets', 'script', 'main.js')
+		);
+		const jsFileUri = panel.webview.asWebviewUri(pathToJsFile);
+
 		// Affichage du contenu de la webView
-		panel.webview.html = getHtmlContent(cssFileUri, panel.webview);
+		panel.webview.html = getHtmlContent(cssFileUri, jsFileUri, panel.webview);
 
 		// Récupération des messages de la webView
 		panel.webview.onDidReceiveMessage(
@@ -124,7 +130,7 @@ function closeWebView(): void
 	
 }
 
-function getHtmlContent(cssFileUri: vscode.Uri, webview: vscode.Webview): string
+function getHtmlContent(cssFileUri: vscode.Uri, jsFileUri: vscode.Uri, webview: vscode.Webview): string
 {
 	return `<!DOCTYPE html>
 
@@ -132,7 +138,7 @@ function getHtmlContent(cssFileUri: vscode.Uri, webview: vscode.Webview): string
 
 		<head>
 			<meta charset="UTF-8">
-			<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${webview.cspSource} https:; style-src ${webview.cspSource}; script-src 'nonce-${webview.cspSource}';">
+			<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${webview.cspSource} https:; style-src ${webview.cspSource}; script-src ${webview.cspSource};">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<link rel="stylesheet" type="text/css" href="${cssFileUri}">
 			<title>Cat Coding</title>
@@ -144,58 +150,7 @@ function getHtmlContent(cssFileUri: vscode.Uri, webview: vscode.Webview): string
 
 			<p id="counter">0</p>
 
-			<script>
-
-				(function () {
-
-					const vscode = acquireVsCodeApi();
-
-					var counter = document.getElementById('counter');
-					var count = 0;
-					var interval = undefined;
-
-
-					// Récupération des messages de l'extension
-					window.addEventListener('message', event => {
-
-						let message = event.data;
-
-						switch (message.command) {
-
-							case 'start':
-
-								interval = setInterval(() => {
-
-									counter.textContent = count++;
-									if (count%10 === 0) {
-										console.log(vscode);
-										vscode.postMessage({
-											command: 'alert',
-											text: 'Dont forget to stop the counter. His current value is ' + count
-										})
-
-									}
-
-								}, 100);
-
-								break;
-
-							case 'stop':
-
-								if (interval) {
-									clearInterval(interval);
-								}
-
-								break;
-
-						}
-
-					});
-
-				}())
-				
-
-			</script>
+			<script src="${jsFileUri}"></script>
 
 		</body>
 
