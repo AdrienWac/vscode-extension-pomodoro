@@ -2,8 +2,15 @@
 
     const vscode = acquireVsCodeApi();
 
+    // Récupération de l'état enregistré
+    const previousState = vscode.getState();
+
+    // Si état enregistré, on init avec valeur sinon 0
+    var count =  previousState ? previousState.count : 0;
+    
     var counter = document.getElementById('counter');
-    var count = 0;
+    counter.textContent = count;
+
     var interval = undefined;
 
 
@@ -19,8 +26,12 @@
                 interval = setInterval(() => {
 
                     counter.textContent = count++;
+
+                    // Enregistrement de la valeur
+                    vscode.setState({count});
+   
                     if (count % 10 === 0) {
-                        console.log(vscode);
+                        
                         vscode.postMessage({
                             command: 'alert',
                             text: 'Dont forget to stop the counter. His current value is ' + count
