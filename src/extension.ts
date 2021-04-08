@@ -18,6 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
 	let commandOpen = vscode.commands.registerCommand('vscode-extension-pomodoro.open', () => {
+		console.log(panel);
 		
 		// Si webView déjà existante, on l'affiche à l'utilisateur
 		if (panel) {
@@ -70,7 +71,9 @@ export function activate(context: vscode.ExtensionContext) {
 		)
 
 		// Fermeture de la webView
-		panel.onDidDispose(closeWebView, null, context.subscriptions);
+		panel.onDidDispose(() => {
+			panel = undefined;
+		}, null, context.subscriptions);
 
 	});
 
