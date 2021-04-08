@@ -2,7 +2,8 @@ export class Timer {
 
     private static instance: Timer;
     
-    private value: number = 0;
+    private value: number = 25;
+    private repetition: number = 0;
 
     static getInstance(): Timer {
         
@@ -19,9 +20,20 @@ export class Timer {
         this.value = _value;
     }
 
-
     public getValue(): number {
         return this.value;
+    }
+
+    public setRepetition(_repetition: number): void {
+        this.repetition = _repetition;
+    }
+
+    public getRepetition(): number {
+        return this.repetition;
+    }
+
+    public decrement(): void {
+        this.value--;
     }
 
 }

@@ -4,7 +4,7 @@ import { worker } from 'node:cluster';
 import * as vscode from 'vscode';
 import * as path from 'path';
 import { Webview } from './webview';
-import { Timer } from './timer';
+
 
 
 // this method is called when your extension is activated
@@ -26,25 +26,15 @@ export function activate(context: vscode.ExtensionContext) {
 	let commandOpen = vscode.commands.registerCommand('vscode-extension-pomodoro.open', () => {
 		
 		webview = new Webview(context);
-		var timer1 = Timer.getInstance();
-		console.log(timer1.getValue());
-		timer1.setValue(10);
-		console.log(timer1.getValue());
-		var timer2 = Timer.getInstance();
-		console.log(timer2.getValue());
-
 
 	});
 
 
 	let commandStart = vscode.commands.registerCommand('vscode-extension-pomodoro.start', () => {
 
-		if(!panel) {
-			return;
+		if(webview) {
+			webview.startTimer();
 		}
-
-		// Envoi d'un message à la webView
-		panel.webview.postMessage({ command: 'start' });
 
 	});
 

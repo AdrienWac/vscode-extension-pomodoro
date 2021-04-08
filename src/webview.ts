@@ -2,11 +2,14 @@
 
 import * as vscode from 'vscode';
 import * as path from 'path';
+import { Timer } from './timer';
 
 export class Webview {
 
-    context: vscode.ExtensionContext
-    panel: vscode.WebviewPanel | undefined = undefined;
+    private context: vscode.ExtensionContext
+    private panel: vscode.WebviewPanel | undefined = undefined;
+    private interval: NodeJS.Timeout | undefined = undefined;
+    private timer: Timer = Timer.getInstance();
 
     constructor(context: vscode.ExtensionContext) {
 
@@ -82,7 +85,8 @@ export class Webview {
     }
 
     getHtmlContent(cssFileUri: vscode.Uri | undefined, jsFileUri: vscode.Uri | undefined, webview: vscode.Webview | undefined): string {
-
+        console.log(this.timer.getValue());
+        
         let cspSource = webview == undefined ? '' : webview.cspSource;
 
         return `<!DOCTYPE html>
@@ -99,9 +103,9 @@ export class Webview {
 
             <body>
 
-                <h1>Pomodoro Timer</h1>
+                <h1>Pomodoro ouioui</h1>
 
-                <p id="counter">0</p>
+                <p id="counter">${this.timer.getValue()}</p>
 
                 <button class="btn-command" data-command="start">Start</button>
                 <button class="btn-command" data-command="stop">Stop</button>
@@ -114,6 +118,26 @@ export class Webview {
         </html>`;
     }
 
+    startTimer(): void {
 
+        this.interval = setInterval(() => {
+
+            this.timer.decrement();
+
+            if (this.panel) {
+                this.panel.webview.postMessage({ timer: this.timer.getValue() });
+            }
+
+            if(this.timer.getValue() == 0) {
+
+                if(this.interval) {
+                    clearInterval(this.interval);
+                }
+                
+            }
+
+        }, 1000);
+
+    }
 
 }
