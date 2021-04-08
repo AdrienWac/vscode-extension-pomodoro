@@ -10,9 +10,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let panel: vscode.WebviewPanel | undefined = undefined;
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "vscode-extension-pomodoro" is now active!');
+	vscode.window.registerWebviewPanelSerializer(
+		'vscode-extension-pomodoro',
+		new PomodoroSerializer()
+	);
 
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
@@ -132,15 +133,18 @@ function closeWebView(): void
 	
 }
 
-function getHtmlContent(cssFileUri: vscode.Uri, jsFileUri: vscode.Uri, webview: vscode.Webview): string
-{
+function getHtmlContent(cssFileUri: vscode.Uri | undefined, jsFileUri: vscode.Uri | undefined, webview: vscode.Webview | undefined): string
+{	
+
+	let cspSource = webview == undefined ? '' : webview.cspSource;
+
 	return `<!DOCTYPE html>
 
 	<html lang="en">
 
 		<head>
 			<meta charset="UTF-8">
-			<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${webview.cspSource} https:; style-src ${webview.cspSource}; script-src ${webview.cspSource};">
+			<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${cspSource} https:; style-src ${cspSource}; script-src ${cspSource};">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<link rel="stylesheet" type="text/css" href="${cssFileUri}">
 			<title>Cat Coding</title>
@@ -157,5 +161,17 @@ function getHtmlContent(cssFileUri: vscode.Uri, jsFileUri: vscode.Uri, webview: 
 		</body>
 
 	</html>`;
+}
+
+class PomodoroSerializer implements vscode.WebviewPanelSerializer
+{
+	async deserializeWebviewPanel(webviewPanel: vscode.WebviewPanel, state: any) {
+		
+		console.log(`Got state: ${state}`);
+
+		webviewPanel.webview.html = getHtmlContent(undefined, undefined,undefined);
+
+	}
+
 }
 
