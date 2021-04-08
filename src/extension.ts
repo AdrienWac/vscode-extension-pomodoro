@@ -65,6 +65,14 @@ export function activate(context: vscode.ExtensionContext) {
 					case 'alert':
 						vscode.window.showInformationMessage(message.text);
 						break;
+
+					case 'start':
+						vscode.window.showInformationMessage(message.text);
+						break;
+
+					case 'stop':
+						vscode.window.showInformationMessage(message.text);
+						break;
 				}
 
 			},
@@ -157,6 +165,10 @@ function getHtmlContent(cssFileUri: vscode.Uri | undefined, jsFileUri: vscode.Ur
 			<h1>Pomodoro Timer</h1>
 
 			<p id="counter">0</p>
+
+			<button class="btn-command" data-command="start">Start</button>
+			<button class="btn-command" data-command="stop">Stop</button>
+
 
 			<script src="${jsFileUri}"></script>
 
