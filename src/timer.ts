@@ -51,20 +51,4 @@ export class Timer {
         return this.type;
     }
 
-    // public getNewTimer(): any {
-
-    //     if (this.type == 'pomodoro' && this.laps == 0) {
-    //         return new LongBreakTimer();
-    //     }
-
-    //     if (this.type == 'pomodoro' && this.laps > 0) {
-    //         return new ShortBreakTimer();
-    //     }
-
-    //     if (['short break', 'long break'].includes(this.type)) {
-    //         return new PomodoroTimer();
-    //     }
-
-    // }
-
 }

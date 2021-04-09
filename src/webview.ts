@@ -12,75 +12,20 @@ export class Webview {
     private context: vscode.ExtensionContext
     private panel: vscode.WebviewPanel | undefined = undefined;
     private interval: NodeJS.Timeout | undefined = undefined;
-    // private timer: Timer = Timer.getInstance();
-    private timer = new LongBreakTimer();
+    private timer;
     private laps: number = 2;
 
     constructor(context: vscode.ExtensionContext) {
 
         this.context = context;
 
-        // Si webView déjà existante, on l'affiche à l'utilisateur
-        if (this.panel) {
-            this.panel.reveal();
-        } else {
-            // Sinon création de la webView
-            this.panel = vscode.window.createWebviewPanel(
-                'pomodoroTimer',
-                'Pomodoro Timer',
-                vscode.ViewColumn.One,
-                {
-                    enableScripts: true,
-                    localResourceRoots: [
-                        vscode.Uri.file(
-                            path.join(context.extensionPath, 'assets')
-                        )
-                    ],
-                    // Maintien le contenu lorsque la webview n'est plus au premier plan
-                    retainContextWhenHidden: true
-                }
-            );
-            console.log(this.panel);
-            
-        }
+        this.timer = new  PomodoroTimer();
 
-        // Génération de l'uri pour le style css
-        const pathToCssFile = vscode.Uri.file(
-            path.join(context.extensionPath, 'assets', 'css', 'main.css')
-        );
-        const cssFileUri = this.panel.webview.asWebviewUri(pathToCssFile);
+        if (!this.panel) {
+            this.panel = this.createPanel();
+        } 
 
-        // Génération de l'uri pour le script js
-        const pathToJsFile = vscode.Uri.file(
-            path.join(context.extensionPath, 'assets', 'script', 'main.js')
-        );
-        const jsFileUri = this.panel.webview.asWebviewUri(pathToJsFile);
-
-        // Affichage du contenu de la webView
-        this.panel.webview.html = this.getHtmlContent(cssFileUri, jsFileUri, this.panel.webview);
-
-        // Récupération des messages de la webView
-        this.panel.webview.onDidReceiveMessage(
-            message => {
-
-                switch (message.command) {
-                    case 'alert':
-                        vscode.window.showInformationMessage(message.text);
-                        break;
-
-                    case 'start':
-                        vscode.window.showInformationMessage(message.text);
-                        break;
-
-                    case 'stop':
-                        vscode.window.showInformationMessage(message.text);
-                        break;
-                }
-
-            },
-            undefined,
-            context.subscriptions
-        )
+        this.panel.reveal();
 
         // Fermeture de la webView
         this.panel.onDidDispose(() => {
@@ -89,8 +34,50 @@ export class Webview {
 
     }
 
+    createPanel(): vscode.WebviewPanel {
+        
+        return vscode.window.createWebviewPanel(
+            'pomodoroTimer',
+            'Pomodoro Timer',
+            vscode.ViewColumn.One,
+            {
+                enableScripts: true,
+                localResourceRoots: [
+                    vscode.Uri.file(
+                        path.join(this.context.extensionPath, 'assets')
+                    )
+                ],
+                // Maintien le contenu lorsque la webview n'est plus au premier plan
+                retainContextWhenHidden: true
+            }
+        );
+
+    }
+
+    displayPanel(): void {
+
+        if(!this.panel) {
+            return;
+        }
+
+        // Génération de l'uri pour le style css
+        const pathToCssFile = vscode.Uri.file(
+            path.join(this.context.extensionPath, 'assets', 'css', 'main.css')
+        );
+        const cssFileUri = this.panel.webview.asWebviewUri(pathToCssFile);
+
+        // Génération de l'uri pour le script js
+        const pathToJsFile = vscode.Uri.file(
+            path.join(this.context.extensionPath, 'assets', 'script', 'main.js')
+        );
+        const jsFileUri = this.panel.webview.asWebviewUri(pathToJsFile);
+
+        // Affichage du contenu de la webView
+        this.panel.webview.html = this.getHtmlContent(cssFileUri, jsFileUri, this.panel.webview);
+
+    }
+
     getHtmlContent(cssFileUri: vscode.Uri | undefined, jsFileUri: vscode.Uri | undefined, webview: vscode.Webview | undefined): string {
-        console.log(this.timer.getValue());
         
         let cspSource = webview == undefined ? '' : webview.cspSource;
 
@@ -123,6 +110,37 @@ export class Webview {
         </html>`;
     }
 
+    attachWebViewMessage(): void {
+
+        if(!this.panel) {
+            return;
+        }
+
+        // Récupération des messages de la webView
+        this.panel.webview.onDidReceiveMessage(
+            message => {
+
+                switch (message.command) {
+                    case 'alert':
+                        vscode.window.showInformationMessage(message.text);
+                        break;
+
+                    case 'start':
+                        vscode.window.showInformationMessage(message.text);
+                        break;
+
+                    case 'stop':
+                        vscode.window.showInformationMessage(message.text);
+                        break;
+                }
+
+            },
+            undefined,
+            this.context.subscriptions
+        )
+
+    }
+
     startTimer(): void {
 
         this.interval = setInterval(() => {
@@ -151,23 +169,7 @@ export class Webview {
 
                     console.log('End timer nouveau type : ', this.timer.getType());
 
-                    if (this.panel) {
-                        // Génération de l'uri pour le style css
-                        const pathToCssFile = vscode.Uri.file(
-                            path.join(this.context.extensionPath, 'assets', 'css', 'main.css')
-                        );
-                        const cssFileUri = this.panel.webview.asWebviewUri(pathToCssFile);
-
-                        // Génération de l'uri pour le script js
-                        const pathToJsFile = vscode.Uri.file(
-                            path.join(this.context.extensionPath, 'assets', 'script', 'main.js')
-                        );
-                        const jsFileUri = this.panel.webview.asWebviewUri(pathToJsFile);
-
-                        // Affichage du contenu de la webView
-                        this.panel.webview.html = this.getHtmlContent(cssFileUri, jsFileUri, this.panel.webview);
-                    }
-                   
+                    this.displayPanel();
                     
                 }
 
