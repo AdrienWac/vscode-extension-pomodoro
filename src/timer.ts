@@ -1,9 +1,20 @@
+import { LongBreakTimer } from "./longBreakTimer";
+import { PomodoroTimer } from "./pomodoroTimer";
+import { ShortBreakTimer } from "./shortBreakTimer";
+
 export class Timer {
 
     private static instance: Timer;
     
-    private value: number = 25;
-    private repetition: number = 0;
+    protected value: number = 25;
+    
+    private seconds: number = 0;
+    protected minute: number = 25;
+
+    protected type: string = 'pomodoro';
+    protected color: string = 'red';
+
+    protected valueToDisplay: string = '25:00';
 
     static getInstance(): Timer {
         
@@ -15,7 +26,6 @@ export class Timer {
 
     }
 
-
     public setValue(_value: number): void {
         this.value = _value;
     }
@@ -24,16 +34,37 @@ export class Timer {
         return this.value;
     }
 
-    public setRepetition(_repetition: number): void {
-        this.repetition = _repetition;
+    public getDisplayValue(): string {
+        return '25:00';
     }
 
-    public getRepetition(): number {
-        return this.repetition;
-    }
 
     public decrement(): void {
         this.value--;
     }
+
+    private convertSecondToDisplayValue(): string {
+        return '00:00';
+    }
+
+    public getType(): string {
+        return this.type;
+    }
+
+    // public getNewTimer(): any {
+
+    //     if (this.type == 'pomodoro' && this.laps == 0) {
+    //         return new LongBreakTimer();
+    //     }
+
+    //     if (this.type == 'pomodoro' && this.laps > 0) {
+    //         return new ShortBreakTimer();
+    //     }
+
+    //     if (['short break', 'long break'].includes(this.type)) {
+    //         return new PomodoroTimer();
+    //     }
+
+    // }
 
 }

@@ -3,13 +3,18 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import { Timer } from './timer';
+import { PomodoroTimer } from './pomodoroTimer';
+import { ShortBreakTimer } from './shortBreakTimer';
+import { LongBreakTimer } from './longBreakTimer';
 
 export class Webview {
 
     private context: vscode.ExtensionContext
     private panel: vscode.WebviewPanel | undefined = undefined;
     private interval: NodeJS.Timeout | undefined = undefined;
-    private timer: Timer = Timer.getInstance();
+    // private timer: Timer = Timer.getInstance();
+    private timer = new LongBreakTimer();
+    private laps: number = 2;
 
     constructor(context: vscode.ExtensionContext) {
 
@@ -131,9 +136,41 @@ export class Webview {
             if(this.timer.getValue() == 0) {
 
                 if(this.interval) {
+
                     clearInterval(this.interval);
+
+                    if (this.timer.getType() == 'pomodoro') {
+                        this.laps--;
+                    }
+
+                    if (this.timer.getType() == 'long break') {
+                        this.laps = 2;
+                    }
+
+                    this.timer = this.timer.getNextTimer(this.laps);
+
+                    console.log('End timer nouveau type : ', this.timer.getType());
+
+                    if (this.panel) {
+                        // Génération de l'uri pour le style css
+                        const pathToCssFile = vscode.Uri.file(
+                            path.join(this.context.extensionPath, 'assets', 'css', 'main.css')
+                        );
+                        const cssFileUri = this.panel.webview.asWebviewUri(pathToCssFile);
+
+                        // Génération de l'uri pour le script js
+                        const pathToJsFile = vscode.Uri.file(
+                            path.join(this.context.extensionPath, 'assets', 'script', 'main.js')
+                        );
+                        const jsFileUri = this.panel.webview.asWebviewUri(pathToJsFile);
+
+                        // Affichage du contenu de la webView
+                        this.panel.webview.html = this.getHtmlContent(cssFileUri, jsFileUri, this.panel.webview);
+                    }
+                   
+                    
                 }
-                
+
             }
 
         }, 1000);
