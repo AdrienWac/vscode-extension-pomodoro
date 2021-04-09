@@ -16,13 +16,9 @@ export class Timer {
 
     protected valueToDisplay: string = '25:00';
 
-    static getInstance(): Timer {
+    static getInstance() {
         
-        if (!this.instance) {
-            this.instance = new this();
-        }
-
-        return this.instance;
+        return new PomodoroTimer();
 
     }
 

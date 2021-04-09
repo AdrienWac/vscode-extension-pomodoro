@@ -20,7 +20,6 @@ export class PomodoroTimer extends Timer {
     }
 
     public getNextTimer(laps: number): any {
-        console.log('this laps : ', laps);
         
         if (laps == 0) {
             return new LongBreakTimer();

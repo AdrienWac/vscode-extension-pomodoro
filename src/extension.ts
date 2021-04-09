@@ -11,24 +11,13 @@ import { Webview } from './webview';
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-	let panel: vscode.WebviewPanel | undefined = undefined;
-
 	let webview: Webview | undefined = undefined;
 
-	vscode.window.registerWebviewPanelSerializer(
-		'vscode-extension-pomodoro',
-		new PomodoroSerializer()
-	);
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
 	let commandOpen = vscode.commands.registerCommand('vscode-extension-pomodoro.open', () => {
 		
 		webview = new Webview(context);
 
 	});
-
 
 	let commandStart = vscode.commands.registerCommand('vscode-extension-pomodoro.start', () => {
 
@@ -40,12 +29,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let commandStop = vscode.commands.registerCommand('vscode-extension-pomodoro.stop', () => {
 
-		if (!panel) {
-			return;
+		if (webview) {
+			webview.stopTimer();
 		}
-
-		// Envoi d'un message à la webView
-		panel.webview.postMessage({ command: 'stop' });
 
 	});
 
@@ -58,15 +44,4 @@ export function activate(context: vscode.ExtensionContext) {
 // this method is called when your extension is deactivated
 export function deactivate() {}
 
-
-class PomodoroSerializer implements vscode.WebviewPanelSerializer
-{
-	async deserializeWebviewPanel(webviewPanel: vscode.WebviewPanel, state: any) {
-		
-		console.log(`Got state: ${state}`);
-
-
-	}
-
-}
 

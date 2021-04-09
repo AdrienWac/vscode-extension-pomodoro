@@ -4,8 +4,6 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import { Timer } from './timer';
 import { PomodoroTimer } from './pomodoroTimer';
-import { ShortBreakTimer } from './shortBreakTimer';
-import { LongBreakTimer } from './longBreakTimer';
 
 export class Webview {
 
@@ -19,12 +17,14 @@ export class Webview {
 
         this.context = context;
 
-        this.timer = new  PomodoroTimer();
+        this.timer = new PomodoroTimer();
 
         if (!this.panel) {
             this.panel = this.createPanel();
         } 
 
+        this.attachWebViewMessage();
+        this.displayPanel();
         this.panel.reveal();
 
         // Fermeture de la webView
@@ -127,10 +127,12 @@ export class Webview {
 
                     case 'start':
                         vscode.window.showInformationMessage(message.text);
+                        this.startTimer();
                         break;
 
                     case 'stop':
                         vscode.window.showInformationMessage(message.text);
+                        this.stopTimer();
                         break;
                 }
 
@@ -167,8 +169,6 @@ export class Webview {
 
                     this.timer = this.timer.getNextTimer(this.laps);
 
-                    console.log('End timer nouveau type : ', this.timer.getType());
-
                     this.displayPanel();
                     
                 }
@@ -176,6 +176,16 @@ export class Webview {
             }
 
         }, 1000);
+
+    }
+
+    stopTimer(): void {
+
+        if(!this.interval) {
+            return;
+        }
+
+        clearInterval(this.interval);
 
     }
 
