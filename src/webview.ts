@@ -4,12 +4,14 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import { Timer } from './timer';
 import { PomodoroTimer } from './pomodoroTimer';
+import { ItemTimer } from './StatusBar/itemTimer';
 
 export class Webview {
 
     private context: vscode.ExtensionContext
     private panel: vscode.WebviewPanel | undefined = undefined;
     private statusBarTimer: vscode.StatusBarItem;
+    private statusBarActionTimer: ItemTimer;
     private interval: NodeJS.Timeout | undefined = undefined;
     private timer;
     private laps: number = 2;
@@ -22,15 +24,19 @@ export class Webview {
 
         if (!this.panel) {
             this.panel = this.createPanel();
-        } 
+        }
 
         this.attachWebViewMessage();
         this.displayPanel();
         this.panel.reveal();
+
         this.statusBarTimer = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
         this.displaySatusBar();
         this.context.subscriptions.push(this.statusBarTimer);
         this.statusBarTimer.show();
+
+        this.statusBarActionTimer = new ItemTimer(this.context);
+        this.statusBarActionTimer.display();
 
         // Fermeture de la webView
         this.panel.onDidDispose(() => {
