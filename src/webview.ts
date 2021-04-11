@@ -9,6 +9,7 @@ export class Webview {
 
     private context: vscode.ExtensionContext
     private panel: vscode.WebviewPanel | undefined = undefined;
+    private statusBarTimer: vscode.StatusBarItem;
     private interval: NodeJS.Timeout | undefined = undefined;
     private timer;
     private laps: number = 2;
@@ -26,6 +27,10 @@ export class Webview {
         this.attachWebViewMessage();
         this.displayPanel();
         this.panel.reveal();
+        this.statusBarTimer = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+        this.displaySatusBar();
+        this.context.subscriptions.push(this.statusBarTimer);
+        this.statusBarTimer.show();
 
         // Fermeture de la webView
         this.panel.onDidDispose(() => {
@@ -52,6 +57,11 @@ export class Webview {
             }
         );
 
+    }
+
+    displaySatusBar(): void
+    {
+        this.statusBarTimer.text = String(this.timer.getValue());
     }
 
     displayPanel(): void {
@@ -170,10 +180,12 @@ export class Webview {
                     this.timer = this.timer.getNextTimer(this.laps);
 
                     this.displayPanel();
-                    
+
                 }
 
             }
+
+            this.displaySatusBar();
 
         }, 1000);
 
