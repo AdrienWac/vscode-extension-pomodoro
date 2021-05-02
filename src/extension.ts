@@ -19,25 +19,25 @@ export function activate(context: vscode.ExtensionContext) {
 
 	});
 
-	let commandStart = vscode.commands.registerCommand('vscode-extension-pomodoro.start', () => {
+	// let commandStart = vscode.commands.registerCommand('vscode-extension-pomodoro.start', () => {
 
-		if(webview) {
-			webview.startTimer();
-		}
+	// 	if(webview) {
+	// 		webview.startTimer();
+	// 	}
 
-	});
+	// });
 
-	let commandStop = vscode.commands.registerCommand('vscode-extension-pomodoro.stop', () => {
+	// let commandStop = vscode.commands.registerCommand('vscode-extension-pomodoro.stop', () => {
 
-		if (webview) {
-			webview.stopTimer();
-		}
+	// 	if (webview) {
+	// 		webview.stopTimer();
+	// 	}
 
-	});
+	// });
 
 	context.subscriptions.push(commandOpen);
-	context.subscriptions.push(commandStart);
-	context.subscriptions.push(commandStop);
+	// context.subscriptions.push(commandStart);
+	// context.subscriptions.push(commandStop);
 
 }
 
