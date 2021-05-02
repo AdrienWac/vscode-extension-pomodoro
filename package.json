@@ -40,7 +40,44 @@
 				"command": "vscode-extension-pomodoro.stop",
 				"title": "Stop PomodoroTimer"
 			}
-		]
+		],
+		"configuration": {
+			"type": "object",
+			"title": "PomodoroTimer",
+			"properties": {
+				"pomodoroTimer.work.duration": {
+					"type": "number",
+					"default": 25,
+					"description": "Duration of a pomodoro"
+				},
+				"pomodoroTimer.shortBreak.duration": {
+					"type": "number",
+					"default": 5,
+					"description": "Duration of a short break between pomodoros"
+				},
+				"pomodoroTimer.longBreak.duration": {
+					"type": "number",
+					"default": 15,
+					"description": "Duration of break after pomodoro cycle"
+				},
+				"pomodoroTimer.work.color": {
+					"type": "string",
+					"default": "d35d6e",
+					"description": "Main color of a pomodoro timer",
+				},
+				"pomodoroTimer.shortBreak.color": {
+					"type": "string",
+					"default": "9dbeb9",
+					"description": "Main color of a short break timer"
+				},
+				"pomodoroTimer.longBreak.color": {
+					"type": "string",
+					"default": "5aa469",
+					"description": "Duration of long break timer"
+				}
+				
+			}
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
