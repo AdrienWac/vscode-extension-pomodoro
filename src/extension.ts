@@ -1,9 +1,10 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-import { worker } from 'node:cluster';
 import * as vscode from 'vscode';
 import * as path from 'path';
 import { Webview } from './webview';
+import { WorkTimer } from './workTimer';
+import { Timer } from './timer';
 
 
 
@@ -11,27 +12,34 @@ import { Webview } from './webview';
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-	let webview: Webview | undefined = undefined;
+	let webview: Webview;
+
+	let timer: Timer;
 
 	let commandOpen = vscode.commands.registerCommand('vscode-extension-pomodoro.open', () => {
 		
-		webview = new Webview(context);
+		timer = new WorkTimer();
+
+		webview = new Webview(context, timer);
+
+		webview.displayPanel();
+		
 
 	});
 
 	let commandStart = vscode.commands.registerCommand('vscode-extension-pomodoro.start', () => {
 
-		if(webview) {
-			webview.startTimer();
-		}
+		// if(webview) {
+		// 	webview.startTimer();
+		// }
 
 	});
 
 	let commandStop = vscode.commands.registerCommand('vscode-extension-pomodoro.stop', () => {
 
-		if (webview) {
-			webview.stopTimer();
-		}
+		// if (webview) {
+		// 	webview.stopTimer();
+		// }
 
 	});
 

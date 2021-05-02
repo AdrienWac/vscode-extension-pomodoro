@@ -3,45 +3,40 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import { Timer } from './timer';
-import { PomodoroTimer } from './pomodoroTimer';
-import { ItemTimer } from './StatusBar/itemTimer';
 
 export class Webview {
 
     private context: vscode.ExtensionContext
-    private panel: vscode.WebviewPanel | undefined = undefined;
-    private statusBarTimer: vscode.StatusBarItem;
-    private statusBarActionTimer: ItemTimer;
-    private interval: NodeJS.Timeout | undefined = undefined;
-    private timer;
-    private laps: number = 2;
+    private panel: vscode.WebviewPanel;
+    private timer: Timer;
+    // private statusBarTimer: vscode.StatusBarItem;
 
-    constructor(context: vscode.ExtensionContext) {
+    constructor(context: vscode.ExtensionContext, timer: Timer) {
 
         this.context = context;
+        this.timer = timer;
+        this.panel = this.createPanel();
 
-        this.timer = new PomodoroTimer();
+        // if (!this.panel) {
+        //     this.panel = this.createPanel();
+        // }
 
-        if (!this.panel) {
-            this.panel = this.createPanel();
-        }
+        // this.attachWebViewMessage();
+        // this.displayPanel();
+        // this.panel.reveal();
 
-        this.attachWebViewMessage();
-        this.displayPanel();
-        this.panel.reveal();
+        // this.statusBarTimer = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+        // this.displaySatusBar();
+        // this.context.subscriptions.push(this.statusBarTimer);
+        // this.statusBarTimer.show();
 
-        this.statusBarTimer = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-        this.displaySatusBar();
-        this.context.subscriptions.push(this.statusBarTimer);
-        this.statusBarTimer.show();
+        // this.statusBarActionTimer = new ItemTimer(this.context);
+        // this.statusBarActionTimer.display();
 
-        this.statusBarActionTimer = new ItemTimer(this.context);
-        this.statusBarActionTimer.display();
-
-        // Fermeture de la webView
-        this.panel.onDidDispose(() => {
-            this.panel = undefined;
-        }, null, context.subscriptions);
+        // // Fermeture de la webView
+        // this.panel.onDidDispose(() => {
+        //     this.panel = undefined;
+        // }, null, context.subscriptions);
 
     }
 
@@ -65,16 +60,12 @@ export class Webview {
 
     }
 
-    displaySatusBar(): void
-    {
-        this.statusBarTimer.text = String(this.timer.getValue());
-    }
+    // displaySatusBar(): void
+    // {
+    //     this.statusBarTimer.text = String(this.timer.getValue());
+    // }
 
     displayPanel(): void {
-
-        if(!this.panel) {
-            return;
-        }
 
         // Génération de l'uri pour le style css
         const pathToCssFile = vscode.Uri.file(
@@ -113,7 +104,7 @@ export class Webview {
 
                 <h1>Pomodoro ouioui</h1>
 
-                <p id="counter">${this.timer.getValue()}</p>
+                <p id="counter">${this.timer.getValueToDisplay()}</p>
 
                 <button class="btn-command" data-command="start">Start</button>
                 <button class="btn-command" data-command="stop">Stop</button>
@@ -126,85 +117,85 @@ export class Webview {
         </html>`;
     }
 
-    attachWebViewMessage(): void {
+    // attachWebViewMessage(): void {
 
-        if(!this.panel) {
-            return;
-        }
+    //     if(!this.panel) {
+    //         return;
+    //     }
 
-        // Récupération des messages de la webView
-        this.panel.webview.onDidReceiveMessage(
-            message => {
+    //     // Récupération des messages de la webView
+    //     this.panel.webview.onDidReceiveMessage(
+    //         message => {
 
-                switch (message.command) {
-                    case 'alert':
-                        vscode.window.showInformationMessage(message.text);
-                        break;
+    //             switch (message.command) {
+    //                 case 'alert':
+    //                     vscode.window.showInformationMessage(message.text);
+    //                     break;
 
-                    case 'start':
-                        vscode.window.showInformationMessage(message.text);
-                        this.startTimer();
-                        break;
+    //                 case 'start':
+    //                     vscode.window.showInformationMessage(message.text);
+    //                     this.startTimer();
+    //                     break;
 
-                    case 'stop':
-                        vscode.window.showInformationMessage(message.text);
-                        this.stopTimer();
-                        break;
-                }
+    //                 case 'stop':
+    //                     vscode.window.showInformationMessage(message.text);
+    //                     this.stopTimer();
+    //                     break;
+    //             }
 
-            },
-            undefined,
-            this.context.subscriptions
-        )
+    //         },
+    //         undefined,
+    //         this.context.subscriptions
+    //     )
 
-    }
+    // }
 
-    startTimer(): void {
+    // startTimer(): void {
 
-        this.interval = setInterval(() => {
+    //     this.interval = setInterval(() => {
 
-            this.timer.decrement();
+    //         this.timer.decrement();
 
-            if (this.panel) {
-                this.panel.webview.postMessage({ timer: this.timer.getValue() });
-            }
+    //         if (this.panel) {
+    //             this.panel.webview.postMessage({ timer: this.timer.getValue() });
+    //         }
 
-            if(this.timer.getValue() == 0) {
+    //         if(this.timer.getValue() == 0) {
 
-                if(this.interval) {
+    //             if(this.interval) {
 
-                    clearInterval(this.interval);
+    //                 clearInterval(this.interval);
 
-                    if (this.timer.getType() == 'pomodoro') {
-                        this.laps--;
-                    }
+    //                 if (this.timer.getType() == 'pomodoro') {
+    //                     this.laps--;
+    //                 }
 
-                    if (this.timer.getType() == 'long break') {
-                        this.laps = 2;
-                    }
+    //                 if (this.timer.getType() == 'long break') {
+    //                     this.laps = 2;
+    //                 }
 
-                    this.timer = this.timer.getNextTimer(this.laps);
+    //                 this.timer = this.timer.getNextTimer(this.laps);
 
-                    this.displayPanel();
+    //                 this.displayPanel();
 
-                }
+    //             }
 
-            }
+    //         }
 
-            this.displaySatusBar();
+    //         this.displaySatusBar();
 
-        }, 1000);
+    //     }, 1000);
 
-    }
+    // }
 
-    stopTimer(): void {
+    // stopTimer(): void {
 
-        if(!this.interval) {
-            return;
-        }
+    //     if(!this.interval) {
+    //         return;
+    //     }
 
-        clearInterval(this.interval);
+    //     clearInterval(this.interval);
 
-    }
+    // }
 
 }
