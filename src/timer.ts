@@ -10,4 +10,10 @@ export interface Timer {
 
     getValueToDisplay(): string;
 
+    getHtmlContent(): string;
+
+    getColor(): string;
+
+    getType(): string;
+
 }

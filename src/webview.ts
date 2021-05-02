@@ -100,15 +100,11 @@ export class Webview {
                 <title>Cat Coding</title>
             </head>
 
-            <body>
+            <body data-timer="${this.timer.getType()}">
 
                 <h1>Pomodoro ouioui</h1>
 
-                <p id="counter">${this.timer.getValueToDisplay()}</p>
-
-                <button class="btn-command" data-command="start">Start</button>
-                <button class="btn-command" data-command="stop">Stop</button>
-
+                ${this.timer.getHtmlContent()}
 
                 <script src="${jsFileUri}"></script>
 

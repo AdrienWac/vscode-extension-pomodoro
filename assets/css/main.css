@@ -1,1 +1,61 @@
 h1{color: red;}
+#timer{width: 50%;margin: auto;padding: 20px 0;}
+#timer .progress-bar{height: 1px;background-color: rgba(0, 0, 0, 0.1);margin-bottom: 30px;}
+#timer .container{
+    width: 80%;
+    margin: auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+#timer button.btn-type-timer{
+    border: none;
+    color: white;
+    margin: 0px;
+    border-radius: 4px;
+    font-family: ArialRounded;
+    font-size: 16px;
+    padding: 2px 12px;
+    height: 28px;
+    cursor: pointer;
+    background: none;
+    box-shadow: none;
+    font-weight: 300;
+}
+#timer button.btn-type-timer.active {
+    border: none;
+    margin: 0px;
+    border-radius: 4px;
+    font-family: ArialRounded;
+    font-size: 16px;
+    padding: 2px 12px;
+    height: 28px;
+    cursor: pointer;
+    background: none rgba(0, 0, 0, 0.15);
+    box-shadow: none;
+    color: white;
+    opacity: 1;
+    font-weight: bold;
+}
+
+#timer .value {
+    font-size: 120px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+#timer button.btn-action {
+    cursor: pointer;
+    border: none;
+    margin: 20px 0px 0px;
+    padding: 0px 12px;
+    border-radius: 4px;
+    box-shadow: rgb(235 235 235) 0px 6px 0px;
+    font-family: ArialRounded;
+    font-size: 22px;
+    height: 55px;
+    color: rgb(70, 142, 145);
+    font-weight: bold;
+    width: 200px;
+    background-color: white;
+}
