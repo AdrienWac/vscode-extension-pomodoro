@@ -94,13 +94,12 @@ export class Webview {
 
             <head>
                 <meta charset="UTF-8">
-                <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${cspSource} https:; style-src ${cspSource}; script-src ${cspSource};">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <link rel="stylesheet" type="text/css" href="${cssFileUri}">
                 <title>Cat Coding</title>
             </head>
 
-            <body data-timer="${this.timer.getType()}">
+            <body style="background-color: ${this.timer.getHexColorCode()}">
 
                 <h1>Pomodoro ouioui</h1>
 

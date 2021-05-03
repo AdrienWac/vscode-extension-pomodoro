@@ -40,6 +40,10 @@ export class WorkTimer implements Timer {
         return this.color;
     }
 
+    public getHexColorCode(): string {
+        return '#' + this.color;
+    }
+
     public getType(): string {
         return this.type;
     }
@@ -54,9 +58,9 @@ export class WorkTimer implements Timer {
             
                 <div id="container-button-type-timer">
 
-                    <button type="button" class="btn-type-timer"> Work </button>
-                    <button type="button" class="btn-type-timer"> Short Break </button>
-                    <button type="button" class="btn-type-timer"> Long Break </button>
+                    <button type="button" class="btn-type-timer ${this.type === 'work' ? 'active' : null}"> Work </button>
+                    <button type="button" class="btn-type-timer ${this.type === 'shortBreak' ? 'active' : null}"> Short Break </button>
+                    <button type="button" class="btn-type-timer ${this.type === 'longBreak' ? 'active' : null}"> Long Break </button>
 
                 </div>
 
@@ -71,6 +75,7 @@ export class WorkTimer implements Timer {
             </div>
 
         </div>`;
+
     }
 
 }

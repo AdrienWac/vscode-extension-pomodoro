@@ -12,7 +12,7 @@ export interface Timer {
 
     getHtmlContent(): string;
 
-    getColor(): string;
+    getHexColorCode(): string;
 
     getType(): string;
 
