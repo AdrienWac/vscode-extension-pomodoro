@@ -29,6 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let commandStart = vscode.commands.registerCommand('vscode-extension-pomodoro.start', () => {
 
+		timer.start(webview);
 		// if(webview) {
 		// 	webview.startTimer();
 		// }

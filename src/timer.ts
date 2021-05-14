@@ -1,10 +1,12 @@
+import { Webview } from "./webview";
+
 export interface Timer {
 
     duration: number;
 
     color: string;
 
-    start(): void;
+    start(webview: Webview): void;
 
     stop(): void;
 

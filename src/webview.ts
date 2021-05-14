@@ -84,6 +84,10 @@ export class Webview {
 
     }
 
+    getPanel(): vscode.WebviewPanel {
+        return this.panel;
+    }
+
     getHtmlContent(cssFileUri: vscode.Uri | undefined, jsFileUri: vscode.Uri | undefined, webview: vscode.Webview | undefined): string {
         
         let cspSource = webview == undefined ? '' : webview.cspSource;
