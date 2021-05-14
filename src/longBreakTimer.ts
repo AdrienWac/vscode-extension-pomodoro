@@ -2,7 +2,7 @@
 
 import { Timer } from './timer';
 
-export class ShortBreakTimer extends Timer {
+export class LongBreakTimer extends Timer {
 
 
 
