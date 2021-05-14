@@ -3,8 +3,9 @@
 import * as vscode from 'vscode';
 import { View } from './view';
 import { StatusBar } from './statusBar';
-import { Timer } from './timer';
+import { TimerFactory } from './timerFactory';
 import { WorkTimer } from './workTimer';
+import { Timer } from './timer';
 
 export class Webview {
 
@@ -12,14 +13,14 @@ export class Webview {
 
     private statusBar: StatusBar;
 
-    // private timer: Timer;
+    private timer: Timer;
 
     private context: vscode.ExtensionContext;
 
     constructor(context: vscode.ExtensionContext) {
 
         this.context = context;
-        // this.timer = Timer.getInstance();
+        this.timer = TimerFactory.getInstance(context);
 
         this.view = new View(context);
         this.statusBar = new StatusBar(context);

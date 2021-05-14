@@ -1,58 +1,26 @@
-'use strict';
-
-import { Itimer } from './itimer';
-import { LongBreakTimer } from './longBreakTimer';
-import { ShortBreakTimer } from './shortBreakTimer';
-import { WorkTimer } from './workTimer';
+import { Itimer } from "./itimer";
+import * as vscode from 'vscode';
 
 export abstract class Timer implements Itimer {
 
-    private static instance: Timer;
+    private context: vscode.ExtensionContext;
 
-    private static type: string = 'WorkTimer';
+    protected type: string = 'WorkTimer';
 
-    public static getInstance(): Timer {
-        
-        if (!Timer.instance) {
-
-            // En fonction du type on construit un timer
-            switch (Timer.getType()) {
-
-                case 'WorkTimer':
-                    Timer.instance = new WorkTimer();
-                    break;
-
-                case 'ShortBreakTimer':
-                    Timer.instance = new ShortBreakTimer();
-                    break;
-                
-                case 'LongBreakTimer': 
-                    Timer.instance = new LongBreakTimer();
-                    break;
-            
-                default:
-                    break;
-
-            }
-            
-        }
-
-        return Timer.instance;
-
+    constructor(context: vscode.ExtensionContext) {
+        this.context = context;
     }
 
-    public static getType(): string {
+    public getType(): string {
         return this.type;
     }
 
     start(): void {
-        throw new Error('Method not implemented.');
+        throw new Error("Method not implemented.");
     }
-
+    
     stop(): void {
-        throw new Error('Method not implemented.');
+        throw new Error("Method not implemented.");
     }
-
-
-
+    
 }
