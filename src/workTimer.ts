@@ -24,12 +24,57 @@ export class WorkTimer implements Timer {
         return this.duration + ':' + '00';
     }
 
-    public start(): void {
+    public start(webview: Webview): void {
         throw new Error("Method not implemented.");
+
+        let panel = webview.getPanel();
+
+        this.interval = setInterval(() => {
+
+            this.decrement();
+
+            panel.webview.postMessage({ timer: this.convertDurationIntoDisplayedValue() });
+
+            if(this.duration == 0) {
+
+                if(this.interval) {
+
+                    clearInterval(this.interval);
+
+                    if (this.timer.getType() == 'pomodoro') {
+                        this.laps--;
+                    }
+
+                    if (this.timer.getType() == 'long break') {
+                        this.laps = 2;
+                    }
+
+                    this.timer = this.timer.getNextTimer(this.laps);
+
+                    this.displayPanel();
+
+                }
+
+            }
+
+
+            
+        }, 1000);
+
+    }
+
+    private end(): void {
+        // Clear interval
+        // Décrémente le nombre de tours
+        // Instancie le timer suivant
     }
 
     public stop(): void {
         throw new Error("Method not implemented.");
+    }
+
+    public decrement(): void {
+        this.duration--;
     }
 
     public getValueToDisplay(): string {
@@ -78,4 +123,4 @@ export class WorkTimer implements Timer {
 
     }
 
-}
+};
