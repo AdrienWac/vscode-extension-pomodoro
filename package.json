@@ -10,7 +10,10 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:vscode-extension-pomodoro.helloWorld"
+		"onCommand:vscode-extension-pomodoro.open",
+		"onCommand:vscode-extension-pomodoro.close",
+		"onCommand:vscode-extension-pomodoro.start",
+		"onCommand:vscode-extension-pomodoro.stop"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
