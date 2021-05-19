@@ -15,9 +15,11 @@ export class StatusBar {
     createTimer() {
 
         let item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-        // item.text = String(this.timer.getValue());
-        item.text = '00:00';
+
+        item.text = String(this.webview.timer.getDuration());
+
         this.webview.context.subscriptions.push(item);
+        
         item.show();
 
     }    

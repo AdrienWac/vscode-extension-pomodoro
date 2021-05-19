@@ -12,6 +12,8 @@ export class ShortBreakTimer extends Timer {
 
         this.type = 'shortBreak';
 
+        this.getConfiguration('pomodoroTimer');
+
     }
 
 }

@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import { Webview } from './webview';
+import { Timer } from './timer';
 
 export class View {
 
@@ -51,13 +52,13 @@ export class View {
         const jsFileUri = this.panel.webview.asWebviewUri(pathToJsFile);
 
         // Affichage du contenu de la webView
-        this.panel.webview.html = this.getHtmlContent(cssFileUri, jsFileUri);
+        this.panel.webview.html = this.getHtmlContent(cssFileUri, jsFileUri, this.webview.timer);
 
         this.panel.reveal();
 
     }
 
-    private getHtmlContent(cssFileUri: vscode.Uri | undefined, jsFileUri: vscode.Uri | undefined): string {
+    private getHtmlContent(cssFileUri: vscode.Uri | undefined, jsFileUri: vscode.Uri | undefined, timer: Timer): string {
         return `<!DOCTYPE html>
 
         <html lang="en">
@@ -74,7 +75,7 @@ export class View {
 
                 <h1>Pomodoro ouioui</h1>
 
-                <p id="counter">00:00</p>
+                <p id="counter">${timer.getDuration()}</p>
 
                 <button class="btn-command" data-command="start">Start</button>
                 <button class="btn-command" data-command="stop">Stop</button>

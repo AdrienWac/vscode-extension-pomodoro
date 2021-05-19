@@ -11,6 +11,8 @@ export class LongBreakTimer extends Timer {
 
         this.type = 'longBreak';
 
+        this.getConfiguration('pomodoroTimer');
+
     }
 
 

@@ -12,7 +12,9 @@ export abstract class Timer implements Itimer {
     protected color: string|undefined;
 
     constructor(context: vscode.ExtensionContext) {
+
         this.context = context;
+        
     }
 
     public getType(): string {
@@ -22,12 +24,16 @@ export abstract class Timer implements Itimer {
     protected getConfiguration(nameConfiguration: string): void
     {
 
-        const config = vscode.workspace.getConfiguration('pomodoroTimer');
+        const config = vscode.workspace.getConfiguration(nameConfiguration);
 
         this.duration = config[this.type].duration;
 
         this.color = config[this.type].color;
 
+    }
+
+    public getDuration(): any {
+        return this.duration;
     }
 
     public start(): void {

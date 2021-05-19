@@ -13,7 +13,7 @@ export class TimerFactory {
         if (!TimerFactory.instance) {
 
             TimerFactory.instance = new WorkTimer(context);
-            
+
         }
 
         return TimerFactory.instance;

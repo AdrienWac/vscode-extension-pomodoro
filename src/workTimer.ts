@@ -8,9 +8,11 @@ export class WorkTimer extends Timer {
     constructor(context: vscode.ExtensionContext) {
         
         super(context);
-        
+
         this.type = 'work';
 
+        this.getConfiguration('pomodoroTimer');
+        
     }
 
 
