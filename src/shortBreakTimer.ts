@@ -8,7 +8,9 @@ export class ShortBreakTimer extends Timer {
 
     constructor(context: vscode.ExtensionContext) {
 
-        super();
+        super(context);
+
+        this.type = 'shortBreak';
 
     }
 

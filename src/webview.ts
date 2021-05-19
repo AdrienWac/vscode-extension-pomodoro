@@ -15,15 +15,17 @@ export class Webview {
 
     private timer: Timer;
 
-    private context: vscode.ExtensionContext;
+    public context: vscode.ExtensionContext;
 
     constructor(context: vscode.ExtensionContext) {
 
         this.context = context;
+        
         this.timer = TimerFactory.getInstance(context);
 
-        this.view = new View(context);
-        this.statusBar = new StatusBar(context);
+        this.view = new View(this);
+        
+        this.statusBar = new StatusBar(this);
 
     }
 

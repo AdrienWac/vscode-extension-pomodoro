@@ -1,13 +1,14 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import { Webview } from './webview';
 
 export class StatusBar {
 
-    private context: vscode.ExtensionContext;
+    private webview: Webview;
 
-    constructor(context: vscode.ExtensionContext) {
+    constructor(webview: Webview) {
 
-        this.context = context;
+        this.webview = webview;
 
     }
 
@@ -16,7 +17,7 @@ export class StatusBar {
         let item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
         // item.text = String(this.timer.getValue());
         item.text = '00:00';
-        this.context.subscriptions.push(item);
+        this.webview.context.subscriptions.push(item);
         item.show();
 
     }    

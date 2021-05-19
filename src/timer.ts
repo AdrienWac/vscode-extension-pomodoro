@@ -7,6 +7,10 @@ export abstract class Timer implements Itimer {
 
     protected type: string = 'WorkTimer';
 
+    protected duration: number|undefined;
+
+    protected color: string|undefined;
+
     constructor(context: vscode.ExtensionContext) {
         this.context = context;
     }
@@ -15,11 +19,22 @@ export abstract class Timer implements Itimer {
         return this.type;
     }
 
-    start(): void {
+    protected getConfiguration(nameConfiguration: string): void
+    {
+
+        const config = vscode.workspace.getConfiguration('pomodoroTimer');
+
+        this.duration = config[this.type].duration;
+
+        this.color = config[this.type].color;
+
+    }
+
+    public start(): void {
         throw new Error("Method not implemented.");
     }
     
-    stop(): void {
+    public stop(): void {
         throw new Error("Method not implemented.");
     }
     

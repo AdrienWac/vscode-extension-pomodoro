@@ -1,15 +1,16 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import { Webview } from './webview';
 
 export class View {
 
-    private context: vscode.ExtensionContext;
-
     public panel: vscode.WebviewPanel;
 
-    constructor(context: vscode.ExtensionContext) {
+    public webview: Webview;
 
-        this.context = context;
+    constructor(webview: Webview) {
+
+        this.webview = webview;
 
         this.panel = this.createPanel();
 
@@ -25,7 +26,7 @@ export class View {
                 enableScripts: true,
                 localResourceRoots: [
                     vscode.Uri.file(
-                        path.join(this.context.extensionPath, 'assets')
+                        path.join(this.webview.context.extensionPath, 'assets')
                     )
                 ],
                 // Maintien le contenu lorsque la webview n'est plus au premier plan
@@ -39,13 +40,13 @@ export class View {
 
         // Génération de l'uri pour le style css
         const pathToCssFile = vscode.Uri.file(
-            path.join(this.context.extensionPath, 'assets', 'css', 'main.css')
+            path.join(this.webview.context.extensionPath, 'assets', 'css', 'main.css')
         );
         const cssFileUri = this.panel.webview.asWebviewUri(pathToCssFile);
 
         // Génération de l'uri pour le script js
         const pathToJsFile = vscode.Uri.file(
-            path.join(this.context.extensionPath, 'assets', 'script', 'main.js')
+            path.join(this.webview.context.extensionPath, 'assets', 'script', 'main.js')
         );
         const jsFileUri = this.panel.webview.asWebviewUri(pathToJsFile);
 

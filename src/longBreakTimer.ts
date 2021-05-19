@@ -7,7 +7,9 @@ export class LongBreakTimer extends Timer {
 
     constructor(context: vscode.ExtensionContext) {
 
-        super();
+        super(context);
+
+        this.type = 'longBreak';
 
     }
 
