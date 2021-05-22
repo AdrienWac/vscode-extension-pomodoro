@@ -15,6 +15,8 @@ export class View {
 
         this.panel = this.createPanel();
 
+        this.handleMessageFromWebview();
+
     }
 
     public createPanel(): vscode.WebviewPanel {
@@ -41,13 +43,13 @@ export class View {
 
         // Génération de l'uri pour le style css
         const pathToCssFile = vscode.Uri.file(
-            path.join(this.webview.context.extensionPath, 'assets', 'css', 'main.css')
+            path.join(this.webview.context.extensionPath, 'assets', 'style.css')
         );
         const cssFileUri = this.panel.webview.asWebviewUri(pathToCssFile);
 
         // Génération de l'uri pour le script js
         const pathToJsFile = vscode.Uri.file(
-            path.join(this.webview.context.extensionPath, 'assets', 'script', 'main.js')
+            path.join(this.webview.context.extensionPath, 'assets', 'main.js')
         );
         const jsFileUri = this.panel.webview.asWebviewUri(pathToJsFile);
 
@@ -86,6 +88,31 @@ export class View {
             </body>
 
         </html>`;
+    }
+
+    public handleMessageFromWebview(): void {
+
+        // Récupération des messages de la webView
+        this.panel.webview.onDidReceiveMessage(
+            
+            message => {
+
+                switch (message.command) {
+                    
+                    case 'start':
+                        this.webview.timer.start();
+                        break;
+
+                    case 'stop':
+                        this.webview.timer.stop();
+                        break;
+
+                }
+
+            },
+            undefined,
+            this.webview.context.subscriptions
+        );
     }
 
 }

@@ -7,6 +7,8 @@ export abstract class Timer implements Itimer {
 
     protected type: string = 'WorkTimer';
 
+    protected state: string = 'stop';
+
     protected duration: number|undefined;
 
     protected color: string|undefined;
@@ -17,10 +19,18 @@ export abstract class Timer implements Itimer {
         
     }
 
+    /**
+     * Retourne le type du compteur courant
+     * @returns 
+     */
     public getType(): string {
         return this.type;
     }
 
+    /**
+     * Mise à jour des configurations via le fichier de config
+     * @param nameConfiguration 
+     */
     protected getConfiguration(nameConfiguration: string): void
     {
 
@@ -32,16 +42,38 @@ export abstract class Timer implements Itimer {
 
     }
 
+    /**
+     * Retourne la durée du timer courant
+     * @returns 
+     */
     public getDuration(): any {
         return this.duration;
     }
 
+    /**
+     * Mise à jour de l'état du timer courant
+     * @param state 
+     */
+    public setState(state: string): void {
+        this.state = state;
+    }
+
+    /**
+     * Activation du compteur
+     */
     public start(): void {
-        throw new Error("Method not implemented.");
+        vscode.window.showInformationMessage('Start');
+        this.setState('start');
     }
     
+    /**
+     * Désactivation du compteur
+     */
     public stop(): void {
-        throw new Error("Method not implemented.");
+        vscode.window.showInformationMessage('Stop');
+        this.setState('stop');
     }
+
+
     
 }
