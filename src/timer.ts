@@ -1,5 +1,4 @@
 import { Itimer } from "./itimer";
-import { StatusBarTimer } from "./statusBarTimer";
 import * as vscode from 'vscode';
 
 export abstract class Timer implements Itimer {
@@ -76,8 +75,6 @@ export abstract class Timer implements Itimer {
     public getState(): string {
         return this.state;
     }
-
-    public getStatusBar(): string
 
     /**
      * Activation du compteur

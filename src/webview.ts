@@ -2,7 +2,6 @@
 
 import * as vscode from 'vscode';
 import { View } from './view';
-import { StatusBar } from './statusBar';
 import { TimerFactory } from './timerFactory';
 import { Timer } from './timer';
 
