@@ -3,10 +3,8 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 
-export interface Itimer {
+export interface IStatusBar {
 
-    run(): void;
-
-    stop(): void;
+    display(): void;
 
 }

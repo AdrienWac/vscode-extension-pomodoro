@@ -2,7 +2,7 @@
 
     const vscode = acquireVsCodeApi();
 
-    var buttonStart = new buttonComand('start', vscode);
+    var buttonStart = new buttonComand('run', vscode);
     var buttonStop = new buttonComand('stop', vscode);
 
     /**

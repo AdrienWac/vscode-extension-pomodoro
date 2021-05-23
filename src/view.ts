@@ -79,7 +79,7 @@ export class View {
 
                 <p id="counter">${timer.getDuration()}</p>
 
-                <button class="btn-command" data-command="start">Start</button>
+                <button class="btn-command" data-command="run">Start</button>
                 <button class="btn-command" data-command="stop">Stop</button>
 
 
@@ -99,8 +99,8 @@ export class View {
 
                 switch (message.command) {
                     
-                    case 'start':
-                        this.webview.timer.start();
+                    case 'run':
+                        this.webview.timer.run();
                         break;
 
                     case 'stop':

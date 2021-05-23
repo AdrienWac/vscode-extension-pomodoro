@@ -1,9 +1,10 @@
 import { Itimer } from "./itimer";
+import { StatusBarTimer } from "./statusBarTimer";
 import * as vscode from 'vscode';
 
 export abstract class Timer implements Itimer {
 
-    private context: vscode.ExtensionContext;
+    public context: vscode.ExtensionContext;
 
     protected type: string = 'WorkTimer';
 
@@ -11,7 +12,7 @@ export abstract class Timer implements Itimer {
 
     protected duration: number|undefined;
 
-    protected color: string|undefined;
+    protected color: string = '#fff';
 
     constructor(context: vscode.ExtensionContext) {
 
@@ -25,6 +26,16 @@ export abstract class Timer implements Itimer {
      */
     public getType(): string {
         return this.type;
+    }
+
+    /**
+     * Retourne la couleur du timer
+     * @returns 
+     */
+    public getColor(): string {
+        
+        return this.color;
+
     }
 
     /**
@@ -59,11 +70,21 @@ export abstract class Timer implements Itimer {
     }
 
     /**
+     * Retourne l'état du timer courant
+     * @returns 
+     */
+    public getState(): string {
+        return this.state;
+    }
+
+    public getStatusBar(): string
+
+    /**
      * Activation du compteur
      */
-    public start(): void {
-        vscode.window.showInformationMessage('Start');
-        this.setState('start');
+    public run(): void {
+        vscode.window.showInformationMessage('Run timer');
+        this.setState('run');
     }
     
     /**

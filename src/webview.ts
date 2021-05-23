@@ -10,8 +10,6 @@ export class Webview {
 
     private view: View;
 
-    private statusBar: StatusBar;
-
     public timer: Timer;
 
     public context: vscode.ExtensionContext;
@@ -24,16 +22,12 @@ export class Webview {
 
         this.view = new View(this);
         
-        this.statusBar = new StatusBar(this);
-
     }
 
-    openTimer(): void {
+    open(): void {
 
         this.view.displayPanel();
         
-        this.statusBar.createTimer();
-
     }
   
 
