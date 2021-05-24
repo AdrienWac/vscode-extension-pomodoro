@@ -1,0 +1,24 @@
+#content-timer{
+    text-align: center;
+    width: 30%;
+    margin: 0 auto;
+    border: 1px solid grey;
+    padding: 25px 0;
+}
+#article{
+      padding: 25px;
+    font-size: 50px;
+    font-weight: bold;
+}
+#timer{
+  width: 50%;
+    margin: 0 auto;
+    border-bottom: 1px solid grey;
+    padding-bottom: 25px;
+}
+#footer{
+      width: 50%;
+    margin: 0 auto;
+}
+.far{font-size:70px;}
+.far:hover{cursor: pointer;}

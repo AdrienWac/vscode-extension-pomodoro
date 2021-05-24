@@ -1,18 +1,18 @@
 'use strict';
 
-import * as vscode from 'vscode';
 import { WorkTimer } from './workTimer';
 import { Timer } from './timer';
+import { Webview } from "./webview";
 
 export class TimerFactory {
 
     private static instance: Timer;
 
-    public static getInstance(context: vscode.ExtensionContext): Timer {
+    public static getInstance(webview: Webview): Timer {
         
         if (!TimerFactory.instance) {
 
-            TimerFactory.instance = new WorkTimer(context);
+            TimerFactory.instance = new WorkTimer(webview);
 
         }
 

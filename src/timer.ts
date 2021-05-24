@@ -1,26 +1,50 @@
+import { Webview } from "./webview";
 import { Itimer } from "./itimer";
+import { StatusBarTimer } from "./statusBarTimer";
 import * as vscode from 'vscode';
 
 export abstract class Timer implements Itimer {
 
-    private context: vscode.ExtensionContext;
+    // public context: vscode.ExtensionContext;
 
+    public webview: Webview;
+    
     protected type: string = 'WorkTimer';
+
+    protected state: string = 'stop';
 
     protected duration: number|undefined;
 
-    protected color: string|undefined;
+    protected color: string = '#fff';
 
-    constructor(context: vscode.ExtensionContext) {
+    constructor(webview: Webview) {
 
-        this.context = context;
+        this.webview = webview;
         
     }
 
+    /**
+     * Retourne le type du compteur courant
+     * @returns 
+     */
     public getType(): string {
         return this.type;
     }
 
+    /**
+     * Retourne la couleur du timer
+     * @returns 
+     */
+    public getColor(): string {
+        
+        return this.color;
+
+    }
+
+    /**
+     * Mise à jour des configurations via le fichier de config
+     * @param nameConfiguration 
+     */
     protected getConfiguration(nameConfiguration: string): void
     {
 
@@ -32,16 +56,47 @@ export abstract class Timer implements Itimer {
 
     }
 
+    /**
+     * Retourne la durée du timer courant
+     * @returns 
+     */
     public getDuration(): any {
         return this.duration;
     }
 
-    public start(): void {
-        throw new Error("Method not implemented.");
+    /**
+     * Mise à jour de l'état du timer courant
+     * @param state 
+     */
+    public setState(state: string): void {
+        this.state = state;
+    }
+
+    /**
+     * Retourne l'état du timer courant
+     * @returns 
+     */
+    public getState(): string {
+        return this.state;
+    }
+
+
+    /**
+     * Activation du compteur
+     */
+    public run(): void {
+        vscode.window.showInformationMessage('Run timer');
+        this.setState('run');
     }
     
+    /**
+     * Désactivation du compteur
+     */
     public stop(): void {
-        throw new Error("Method not implemented.");
+        vscode.window.showInformationMessage('Stop');
+        this.setState('stop');
     }
+
+
     
 }

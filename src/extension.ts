@@ -12,11 +12,12 @@ export function activate(context: vscode.ExtensionContext) {
 	let commandOpen = vscode.commands.registerCommand('vscode-extension-pomodoro.open', () => {
 
 		webview = new Webview(context);
-		webview.openTimer();
+		webview.open();
 
 	});
 
 	context.subscriptions.push(commandOpen);
+	
 }
 
 // this method is called when your extension is deactivated
