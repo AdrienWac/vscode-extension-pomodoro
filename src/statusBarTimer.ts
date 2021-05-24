@@ -1,54 +1,59 @@
 import * as vscode from 'vscode';
 import { Timer } from "./Timer";
 import * as path from 'path';
-import { IStatusBar } from './iStatusBar';
+import { StatusBar } from './statusBar';
+import { Webview } from './webview';
 
-export class StatusBarTimer implements IStatusBar{
+export class StatusBarTimer extends StatusBar{
 
-    private timer: Timer;
+    
+    constructor(webview: Webview) {
 
-    constructor(timer: Timer) {
-
-        this.timer = timer;
-        
-    }
-
-    public display(): void {
-
-        this.displayDuration();
-        
-        this.displayCommandButton();
+        super(webview);
 
     }
 
-    private displayDuration() {
+    /**
+     * Création de l'ensemble des items qui constituent la status bar du timer
+     * @param webView 
+     */
+    public create(webView: Webview): void {
+
+        this.itemStack.push(this.createDurationItem());
+
+        this.itemStack.push(this.createDurationItem());
+
+    }
+
+    /**
+     * Création de l'item qui affiche le compteur
+     * @returns 
+     */
+    private createDurationItem(): vscode.StatusBarItem {
 
         let item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
 
-        item.text = String(this.timer.getDuration());
+        item.text = String(this.webview.timer.getDuration());
 
-        // this.timer.context.subscriptions.push(item);
-        
-        item.show();
+        return item;
 
     }
     
     /**
      * Création du bouton de commande du timer dans la status bar
      */
-    private displayCommandButton() {
+    private createCommandItem(): vscode.StatusBarItem {
 
         let item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 200);
 
-        item.text = this.timer.getState() === 'run' ? '$(run)' : '$(debug-stop)';
+        item.text = this.webview.timer.getState() === 'run' ? '$(run)' : '$(debug-stop)';
         
-        item.command = this.timer.getState();
+        item.command = this.webview.timer.getState();
 
-        item.color = this.timer.getColor();
+        item.color = this.webview.timer.getColor();
 
-        // this.timer.context.subscriptions.push(item);
+        return item;
 
-        item.show();
 
     }
 
