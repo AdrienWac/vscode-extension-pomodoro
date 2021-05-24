@@ -27,7 +27,7 @@ export class StatusBarTimer implements IStatusBar{
 
         item.text = String(this.timer.getDuration());
 
-        this.timer.context.subscriptions.push(item);
+        // this.timer.context.subscriptions.push(item);
         
         item.show();
 
@@ -46,7 +46,7 @@ export class StatusBarTimer implements IStatusBar{
 
         item.color = this.timer.getColor();
 
-        this.timer.context.subscriptions.push(item);
+        // this.timer.context.subscriptions.push(item);
 
         item.show();
 

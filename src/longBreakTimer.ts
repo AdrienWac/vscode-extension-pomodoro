@@ -1,19 +1,18 @@
 'use strict';
 
-import * as vscode from 'vscode';
+import { Webview } from "./webview";
 import { Timer } from './timer';
 
 export class LongBreakTimer extends Timer {
 
-    constructor(context: vscode.ExtensionContext) {
+    constructor(webview: Webview) {
 
-        super(context);
+        super(webview);
 
         this.type = 'longBreak';
 
         this.getConfiguration('pomodoroTimer');
 
     }
-
 
 }

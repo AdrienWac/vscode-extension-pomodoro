@@ -1,11 +1,14 @@
+import { Webview } from "./webview";
 import { Itimer } from "./itimer";
 import { StatusBarTimer } from "./statusBarTimer";
 import * as vscode from 'vscode';
 
 export abstract class Timer implements Itimer {
 
-    public context: vscode.ExtensionContext;
+    // public context: vscode.ExtensionContext;
 
+    public webview: Webview;
+    
     protected type: string = 'WorkTimer';
 
     protected state: string = 'stop';
@@ -14,9 +17,9 @@ export abstract class Timer implements Itimer {
 
     protected color: string = '#fff';
 
-    constructor(context: vscode.ExtensionContext) {
+    constructor(webview: Webview) {
 
-        this.context = context;
+        this.webview = webview;
         
     }
 
@@ -77,7 +80,6 @@ export abstract class Timer implements Itimer {
         return this.state;
     }
 
-    public getStatusBar(): string
 
     /**
      * Activation du compteur
