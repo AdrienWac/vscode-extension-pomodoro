@@ -15,13 +15,12 @@ export class StatusBarTimer extends StatusBar{
 
     /**
      * Création de l'ensemble des items qui constituent la status bar du timer
-     * @param webView 
      */
-    public create(webView: Webview): void {
+    public create(): void {
 
         this.itemStack.push(this.createDurationItem());
 
-        this.itemStack.push(this.createDurationItem());
+        this.itemStack.push(this.createCommandItem());
 
     }
 
@@ -46,7 +45,7 @@ export class StatusBarTimer extends StatusBar{
 
         let item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 200);
 
-        item.text = this.webview.timer.getState() === 'run' ? '$(run)' : '$(debug-stop)';
+        item.text = this.webview.timer.getState() === 'run' ? '$(debug-stop)' : '$(run)' ;
         
         item.command = this.webview.timer.getState();
 
