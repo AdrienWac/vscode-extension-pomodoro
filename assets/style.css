@@ -1,24 +1,35 @@
-#content-timer{
-    text-align: center;
-    width: 30%;
-    margin: 0 auto;
-    border: 1px solid grey;
-    padding: 25px 0;
+.timer-container{
+  border:1px solid red;
+  padding:10px;
+  width:50%;
+  margin: 15px auto;
 }
-#article{
-      padding: 25px;
-    font-size: 50px;
-    font-weight: bold;
+
+.timer-type {
+  margin: 15px 0;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
 }
-#timer{
-  width: 50%;
-    margin: 0 auto;
-    border-bottom: 1px solid grey;
-    padding-bottom: 25px;
+
+.timer-type li {
+  padding: 5px;
+  border: 1px solid;
+  
 }
-#footer{
-      width: 50%;
-    margin: 0 auto;
+
+.timer-type li + li {
+  margin-left: 5px;
 }
-.far{font-size:70px;}
-.far:hover{cursor: pointer;}
+
+.duration{
+  text-align: center;
+  font-size:25px;
+}
+
+.timer-command{
+  margin: 15px 0;
+  text-align: center;
+}

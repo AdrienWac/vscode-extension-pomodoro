@@ -101,6 +101,26 @@ export abstract class Timer implements Itimer {
         this.setState('stop');
     }
 
+    public generateHtml(): string {
+        
+        return `<div class="timer-container">
+
+            <ul class="timer-type">
+                <li>Work</li>
+                <li>Short break</li>
+                <li>Long break</li>
+            </ul>
+
+            <div class="duration text-center">25 : 00</div>
+
+            <div class="timer-command">
+                <button> Start </button>
+            </div>
+
+        </div>`;
+        
+    }
+
 
     
 }
