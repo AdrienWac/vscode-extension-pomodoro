@@ -5,6 +5,7 @@ import { View } from './view';
 import { TimerFactory } from './timerFactory';
 import { Timer } from './timer';
 import { StatusBarTimer } from './statusBarTimer';
+import { MediatorTimer } from './mediatorTimer';
 
 export class Webview {
 
@@ -16,15 +17,20 @@ export class Webview {
 
     public context: vscode.ExtensionContext;
 
+    public mediatorTimer: MediatorTimer;
+
     constructor(context: vscode.ExtensionContext) {
 
         this.context = context;
+        
+        this.mediatorTimer = new MediatorTimer(this);
         
         this.timer = TimerFactory.getInstance(this);
 
         this.statusBarTimer = new StatusBarTimer(this);
 
         this.view = new View(this);
+
         
     }
 

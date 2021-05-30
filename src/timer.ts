@@ -69,7 +69,11 @@ export abstract class Timer implements Itimer {
      * @param state 
      */
     public setState(state: string): void {
+
         this.state = state;
+        
+        this.webview.mediatorTimer.notify('state');
+        
     }
 
     /**

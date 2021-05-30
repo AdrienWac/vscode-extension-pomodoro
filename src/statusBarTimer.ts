@@ -6,10 +6,22 @@ import { Webview } from './webview';
 
 export class StatusBarTimer extends StatusBar{
 
+    private itemCommand: vscode.StatusBarItem;
+
+    private itemDuration: vscode.StatusBarItem;
     
     constructor(webview: Webview) {
 
         super(webview);
+
+        this.itemCommand = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 200);
+
+        this.itemDuration = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+
+        webview.mediatorTimer.addEvent('state', () => {
+            this.itemStack.push(this.createCommandItem());
+            this.display();
+        });
 
     }
 
@@ -18,9 +30,7 @@ export class StatusBarTimer extends StatusBar{
      */
     public create(): void {
 
-        this.itemStack.push(this.createDurationItem());
-
-        this.itemStack.push(this.createCommandItem());
+        this.itemStack.push(this.createDurationItem(), this.createCommandItem());
 
     }
 
@@ -30,11 +40,9 @@ export class StatusBarTimer extends StatusBar{
      */
     private createDurationItem(): vscode.StatusBarItem {
 
-        let item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+        this.itemDuration.text = String(this.webview.timer.getDuration());
 
-        item.text = String(this.webview.timer.getDuration());
-
-        return item;
+        return this.itemDuration;
 
     }
     
@@ -43,15 +51,13 @@ export class StatusBarTimer extends StatusBar{
      */
     private createCommandItem(): vscode.StatusBarItem {
 
-        let item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 200);
-
-        item.text = this.webview.timer.getState() === 'run' ? '$(debug-stop)' : '$(run)' ;
+        this.itemCommand.text = this.webview.timer.getState() === 'run' ? '$(debug-stop)' : '$(run)' ;
         
-        item.command = this.webview.timer.getState() === 'run' ? 'vsvscode-extension-pomodoro.stop' : 'vscode-extension-pomodoro.run';
+        this.itemCommand.command = this.webview.timer.getState() === 'run' ? 'vsvscode-extension-pomodoro.stop' : 'vscode-extension-pomodoro.run';
 
-        item.color = this.webview.timer.getColor();
+        this.itemCommand.color = this.webview.timer.getColor();
 
-        return item;
+        return this.itemCommand;
 
     }
 
