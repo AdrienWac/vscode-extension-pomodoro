@@ -47,12 +47,11 @@ export class StatusBarTimer extends StatusBar{
 
         item.text = this.webview.timer.getState() === 'run' ? '$(debug-stop)' : '$(run)' ;
         
-        item.command = this.webview.timer.getState();
+        item.command = this.webview.timer.getState() === 'run' ? 'vsvscode-extension-pomodoro.stop' : 'vscode-extension-pomodoro.run';
 
         item.color = this.webview.timer.getColor();
 
         return item;
-
 
     }
 

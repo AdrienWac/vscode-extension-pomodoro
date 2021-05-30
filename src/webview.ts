@@ -37,6 +37,12 @@ export class Webview {
         this.statusBarTimer.display();
         
     }
+
+    run(): void {
+
+        this.timer.run();
+
+    }
   
 
 }
