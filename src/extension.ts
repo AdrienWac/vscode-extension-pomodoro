@@ -9,14 +9,22 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let webview: Webview;
 
-	let commandOpen = vscode.commands.registerCommand('vscode-extension-pomodoro.open', () => {
+	webview = new Webview(context);
 
-		webview = new Webview(context);
+	let commandOpen = vscode.commands.registerCommand('vscode-extension-pomodoro.open', () => {
+		
 		webview.open();
 
 	});
 
+	let commandRun = vscode.commands.registerCommand('vscode-extension-pomodoro.run', () => {
+
+		webview.run();
+
+	});
+
 	context.subscriptions.push(commandOpen);
+	context.subscriptions.push(commandRun);
 	
 }
 

@@ -1,54 +1,63 @@
 import * as vscode from 'vscode';
 import { Timer } from "./Timer";
 import * as path from 'path';
-import { IStatusBar } from './iStatusBar';
+import { StatusBar } from './statusBar';
+import { Webview } from './webview';
 
-export class StatusBarTimer implements IStatusBar{
+export class StatusBarTimer extends StatusBar{
 
-    private timer: Timer;
+    private itemCommand: vscode.StatusBarItem;
 
-    constructor(timer: Timer) {
+    private itemDuration: vscode.StatusBarItem;
+    
+    constructor(webview: Webview) {
 
-        this.timer = timer;
-        
+        super(webview);
+
+        this.itemCommand = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 200);
+
+        this.itemDuration = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+
+        webview.mediatorTimer.addEvent('state', () => {
+            this.itemStack.push(this.createCommandItem());
+            this.display();
+        });
+
     }
 
-    public display(): void {
+    /**
+     * Création de l'ensemble des items qui constituent la status bar du timer
+     */
+    public create(): void {
 
-        this.displayDuration();
-        
-        this.displayCommandButton();
+        this.itemStack.push(this.createDurationItem(), this.createCommandItem());
 
     }
 
-    private displayDuration() {
+    /**
+     * Création de l'item qui affiche le compteur
+     * @returns 
+     */
+    private createDurationItem(): vscode.StatusBarItem {
 
-        let item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+        this.itemDuration.text = String(this.webview.timer.getDuration());
 
-        item.text = String(this.timer.getDuration());
-
-        // this.timer.context.subscriptions.push(item);
-        
-        item.show();
+        return this.itemDuration;
 
     }
     
     /**
      * Création du bouton de commande du timer dans la status bar
      */
-    private displayCommandButton() {
+    private createCommandItem(): vscode.StatusBarItem {
 
-        let item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 200);
-
-        item.text = this.timer.getState() === 'run' ? '$(run)' : '$(debug-stop)';
+        this.itemCommand.text = this.webview.timer.getState() === 'run' ? '$(debug-stop)' : '$(run)' ;
         
-        item.command = this.timer.getState();
+        this.itemCommand.command = this.webview.timer.getState() === 'run' ? 'vsvscode-extension-pomodoro.stop' : 'vscode-extension-pomodoro.run';
 
-        item.color = this.timer.getColor();
+        this.itemCommand.color = this.webview.timer.getColor();
 
-        // this.timer.context.subscriptions.push(item);
-
-        item.show();
+        return this.itemCommand;
 
     }
 
