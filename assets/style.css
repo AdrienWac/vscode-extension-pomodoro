@@ -1,24 +1,66 @@
-#content-timer{
-    text-align: center;
-    width: 30%;
-    margin: 0 auto;
-    border: 1px solid grey;
-    padding: 25px 0;
+.float-right{float: right;}
+.float-left{float: left;}
+.clear{clear:both;}
+hr{border:0;border-top:1px solid #fff;}
+.button{
+  padding: 15px;
+  border: 1px solid #a85754;
+  border-radius: 3%;
+  background: transparent;
 }
-#article{
-      padding: 25px;
-    font-size: 50px;
-    font-weight: bold;
+.button.active{
+  background: #be5551;
+  font-weight: bold;
 }
-#timer{
-  width: 50%;
-    margin: 0 auto;
-    border-bottom: 1px solid grey;
-    padding-bottom: 25px;
+
+.button:hover{
+  background: #be5551;
+  cursor: pointer;
 }
-#footer{
-      width: 50%;
-    margin: 0 auto;
+body{
+  background: #db524d;
+
 }
-.far{font-size:70px;}
-.far:hover{cursor: pointer;}
+.timer-container{
+  width:40%;
+  margin:0 auto;
+  color: #fff;
+  background: rgb(0 0 0 / 5%);
+  margin: 15px auto;
+  padding: 5px 0;
+}
+
+
+.timer-type {
+  margin: 15px 0;
+  padding: 0px;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.timer-type li.active {
+  background: #be5551;
+  font-weight: bold;
+}
+
+.timer-type li + li {
+  margin-left: 5px;
+}
+
+.duration{
+  text-align: center;
+  font-size:45px;
+  font-weight:bold;
+}
+hr ~ div {font-size:10px;}
+.timer-command{
+  margin: 15px 0;
+  text-align: center;
+}
+
+.timer-command button{
+  color: #fff;
+}
