@@ -101,24 +101,48 @@ export abstract class Timer implements Itimer {
         this.setState('stop');
     }
 
+    /**
+     * Générère le contenu html du timer
+     * @returns 
+     */
     public generateHtml(): string {
         
         return `<div class="timer-container">
 
             <ul class="timer-type">
-                <li>Work</li>
-                <li>Short break</li>
-                <li>Long break</li>
+                <li class="active button">Work</li>
+                <li class="button" >Short break</li>
+                <li class="button">Long break</li>
             </ul>
 
-            <div class="duration text-center">25 : 00</div>
+            <div class="duration text-center">${this.duration}</div>
 
             <div class="timer-command">
-                <button> Start </button>
+
+                <button class="button btn-command" data-command="${this.state === 'run' ? 'stop' : 'run'}"> 
+                    ${this.state === 'run' ? 'Stop' : 'Start'} 
+                </button>
+
             </div>
 
+            <hr>
+
+            <div class="float-right timer-lap-time-end">
+
+                <span>Heure de fin : 12h23</span>
+
+            </div>
+
+            <div class="float-left timer-lap-count">
+
+                <span>1</span> sur <span>5</span>
+                
+            </div>
+
+            <div class="clear"></div>
+
         </div>`;
-        
+
     }
 
 

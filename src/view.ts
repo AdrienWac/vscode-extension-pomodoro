@@ -17,6 +17,10 @@ export class View {
 
         this.handleMessageFromWebview();
 
+        webview.mediatorTimer.addEvent('state', () => {
+            this.displayPanel();
+        });
+
     }
 
     public createPanel(): vscode.WebviewPanel {
@@ -76,6 +80,8 @@ export class View {
             <body>
 
                 <h1>Pomodoro ouioui</h1>
+
+                ${timer.generateHtml()}
 
                 <p id="counter">${timer.getDuration()}</p>
 
