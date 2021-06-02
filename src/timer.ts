@@ -90,6 +90,14 @@ export abstract class Timer implements Itimer {
         
     }
 
+    public setDuration(duration: number): void {
+
+        this.duration = duration;
+
+        this.webview.mediatorTimer.notify('setDuration');
+
+    }
+
     /**
      * Mise à jour des attibuts via les valeurs de configuration
      * @param timerType Type de timer
@@ -107,7 +115,7 @@ export abstract class Timer implements Itimer {
      * Activation du compteur
      * - Message d'information
      * - Mise à jour de l'état du timer
-     * - Incrémentation du laps => pour timer work
+     * - Décrémentation du laps => pour timer work
      * - Lancement de l'interval
      */
     public run(): void {
@@ -116,24 +124,23 @@ export abstract class Timer implements Itimer {
 
         this.setState('run');
 
-        // this.interval = setInterval(() => {
+        this.laps--;
 
-        //     this.decrement();
+        this.interval = setInterval(() => {
 
-        //     if (this.panel) {
-        //         this.panel.webview.postMessage({ timer: this.timer.getValue() });
-        //     }
+            this.duration = this.duration - 1;
+            this.setDuration(this.duration);
 
-        //     if (this.duration === 0) {
+            if (this.duration === 0) {
 
-        //         this.end();
-        //         // if (this.interval) {
-        //         //     clearInterval(this.interval);
-        //         // }
+                this.end();
+                // if (this.interval) {
+                //     clearInterval(this.interval);
+                // }
 
-        //     }
+            }
 
-        // }, 1000);
+        }, 1000);
 
     }
 

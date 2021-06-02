@@ -23,6 +23,11 @@ export class StatusBarTimer extends StatusBar{
             this.display();
         });
 
+        webview.mediatorTimer.addEvent('setDuration', () => {
+            this.itemStack.push(this.createDurationItem());
+            this.display();
+        });
+
     }
 
     /**

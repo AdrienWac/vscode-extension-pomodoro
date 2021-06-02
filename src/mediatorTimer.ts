@@ -4,7 +4,7 @@ import { IMediator } from './iMediator';
 
 export class MediatorTimer implements IMediator {
 
-    private eventsStack: { [key: string]: Array<Function>; } = {'state' : []};
+    private eventsStack: { [key: string]: Array<Function>; } = {};
 
     private webview: Webview;
 
@@ -14,6 +14,13 @@ export class MediatorTimer implements IMediator {
     }
 
     public addEvent(libelleEvent: string, callback: Function): void {
+
+        if (!this.eventsStack.hasOwnProperty(libelleEvent)) {
+
+            this.eventsStack[libelleEvent] = [];
+
+        }
+
         this.eventsStack[libelleEvent].push(callback);
     }
 

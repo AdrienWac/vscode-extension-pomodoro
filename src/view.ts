@@ -21,6 +21,10 @@ export class View {
             this.displayPanel();
         });
 
+        webview.mediatorTimer.addEvent('setDuration', () => {
+            this.displayPanel();
+        });
+
     }
 
     public createPanel(): vscode.WebviewPanel {
