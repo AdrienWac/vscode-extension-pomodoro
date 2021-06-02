@@ -1,23 +1,34 @@
 import { Webview } from "./webview";
 import { Itimer } from "./itimer";
-import { StatusBarTimer } from "./statusBarTimer";
 import * as vscode from 'vscode';
+import { WorkTimer } from "./workTimer";
 
 export abstract class Timer implements Itimer {
-
-    // public context: vscode.ExtensionContext;
 
     public webview: Webview;
     
     protected type: string = 'WorkTimer';
 
+    protected configuration: vscode.WorkspaceConfiguration;
+
     protected state: string = 'stop';
 
-    protected duration: number|undefined;
+    protected duration: number = 25;
 
     protected color: string = '#fff';
+    
+    protected laps: number = 4;
+
+    private interval: NodeJS.Timeout | undefined = undefined;
+
+    protected informationMessage: { [key: string]: string; } = {  };
+
 
     constructor(webview: Webview) {
+
+        this.configuration = vscode.workspace.getConfiguration('pomodoroTimer');
+
+        this.laps = this.configuration.repeat;
 
         this.webview = webview;
         
@@ -42,17 +53,20 @@ export abstract class Timer implements Itimer {
     }
 
     /**
+     * Retourne l'état du timer courant
+     * @returns 
+     */
+    public getState(): string {
+        return this.state;
+    }
+
+    /**
      * Mise à jour des configurations via le fichier de config
      * @param nameConfiguration 
      */
-    protected getConfiguration(nameConfiguration: string): void
-    {
+    protected getConfiguration(nameConfiguration: string): vscode.WorkspaceConfiguration {
 
-        const config = vscode.workspace.getConfiguration(nameConfiguration);
-
-        this.duration = config[this.type].duration;
-
-        this.color = config[this.type].color;
+        return this.configuration;
 
     }
 
@@ -77,22 +91,64 @@ export abstract class Timer implements Itimer {
     }
 
     /**
-     * Retourne l'état du timer courant
-     * @returns 
+     * Mise à jour des attibuts via les valeurs de configuration
+     * @param timerType Type de timer
      */
-    public getState(): string {
-        return this.state;
-    }
+    protected setAttributesFromConfiguration(timerType: string): void
+    {
+        this.duration = this.configuration[timerType].duration;
+
+        this.color = this.configuration[timerType].color;
+
+    } 
 
 
     /**
      * Activation du compteur
+     * - Message d'information
+     * - Mise à jour de l'état du timer
+     * - Incrémentation du laps => pour timer work
+     * - Lancement de l'interval
      */
     public run(): void {
-        vscode.window.showInformationMessage('Run timer');
+
+        vscode.window.showInformationMessage(this.informationMessage['run']);
+
         this.setState('run');
+
+        // this.interval = setInterval(() => {
+
+        //     this.decrement();
+
+        //     if (this.panel) {
+        //         this.panel.webview.postMessage({ timer: this.timer.getValue() });
+        //     }
+
+        //     if (this.duration === 0) {
+
+        //         this.end();
+        //         // if (this.interval) {
+        //         //     clearInterval(this.interval);
+        //         // }
+
+        //     }
+
+        // }, 1000);
+
     }
-    
+
+    /**
+     * Fin du timer
+     * - Fin de l'interval
+     * - Message d'avertissement
+     * - Initialisation du nouveau compteur
+     * - Mise à jour de l'état => stop
+     * - 
+     */
+    private end(): void {
+
+    }
+
     /**
      * Désactivation du compteur
      */
