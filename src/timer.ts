@@ -2,6 +2,8 @@ import { Webview } from "./webview";
 import { Itimer } from "./itimer";
 import * as vscode from 'vscode';
 import { WorkTimer } from "./workTimer";
+import { TimerFactory } from './timerFactory';
+
 
 export abstract class Timer implements Itimer {
 
@@ -33,6 +35,8 @@ export abstract class Timer implements Itimer {
         this.webview = webview;
         
     }
+
+    abstract nextTimerInstance(): Timer;
 
     /**
      * Retourne le type du compteur courant
@@ -154,7 +158,18 @@ export abstract class Timer implements Itimer {
      */
     private end(): void {
 
+        if (this.interval) {
+            clearInterval(this.interval);
+        }
+
+        vscode.window.showInformationMessage(this.informationMessage['end']);
+
+        TimerFactory.setInstance(this.nextTimerInstance());
+
+        this.setState('stop');
+
     }
+
 
     /**
      * Désactivation du compteur

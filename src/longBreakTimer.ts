@@ -25,7 +25,7 @@ export class LongBreakTimer extends Timer {
     /**
      * @returns Instance du Timer suivant un long break timer
      */
-    private nextTimerInstance(): Timer {
+    public nextTimerInstance(): Timer {
 
         return new WorkTimer(this.webview);
 

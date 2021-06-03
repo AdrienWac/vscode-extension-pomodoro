@@ -25,7 +25,7 @@ export class ShortBreakTimer extends Timer {
     /**
      * @returns Instance du Timer suivant un short break timer
      */
-    private nextTimerInstance(): Timer {
+    public nextTimerInstance(): Timer {
 
         return new WorkTimer(this.webview);
 

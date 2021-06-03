@@ -29,7 +29,7 @@ export class WorkTimer extends Timer {
     /**
      * @returns Instance du Timer suivant un work timer
      */
-    private nextTimerInstance(): Timer {
+    public nextTimerInstance(): Timer {
 
         if (this.laps === 0) {
             return new LongBreakTimer(this.webview);
