@@ -15,7 +15,7 @@ export abstract class Timer implements Itimer {
 
     protected state: string = 'stop';
 
-    protected duration: number = 25;
+    protected duration: number = 5;
 
     protected color: string = '#fff';
     
@@ -70,7 +70,35 @@ export abstract class Timer implements Itimer {
      */
     protected getConfiguration(nameConfiguration: string): vscode.WorkspaceConfiguration {
 
+        if (nameConfiguration !== undefined) {
+
+            // return this.con
+
+        }
+
         return this.configuration;
+
+    }
+
+
+    public extract(datas: any, path: string): any {
+        
+        if (path.indexOf('{') === -1) {
+            
+            for (let item of path.split('.')) {
+                
+                datas = datas[item];
+
+            }
+
+            return datas;
+
+        }
+
+
+
+
+
 
     }
 
@@ -90,7 +118,7 @@ export abstract class Timer implements Itimer {
 
         this.state = state;
         
-        this.webview.mediatorTimer.notify('state');
+        Webview.mediatorTimer.notify('state');
         
     }
 
@@ -98,7 +126,7 @@ export abstract class Timer implements Itimer {
 
         this.duration = duration;
 
-        this.webview.mediatorTimer.notify('setDuration');
+        Webview.mediatorTimer.notify('setDuration');
 
     }
 
@@ -138,9 +166,6 @@ export abstract class Timer implements Itimer {
             if (this.duration === 0) {
 
                 this.end();
-                // if (this.interval) {
-                //     clearInterval(this.interval);
-                // }
 
             }
 
@@ -150,11 +175,6 @@ export abstract class Timer implements Itimer {
 
     /**
      * Fin du timer
-     * - Fin de l'interval
-     * - Message d'avertissement
-     * - Initialisation du nouveau compteur
-     * - Mise à jour de l'état => stop
-     * - 
      */
     private end(): void {
 
@@ -188,9 +208,9 @@ export abstract class Timer implements Itimer {
         return `<div class="timer-container">
 
             <ul class="timer-type">
-                <li class="active button">Work</li>
-                <li class="button" >Short break</li>
-                <li class="button">Long break</li>
+                <li class="${this.type === 'work' ? 'active' : ''} button">Work</li>
+                <li class="${this.type === 'shortBreak' ? 'active' : ''} button" >Short break</li>
+                <li class="${this.type === 'longBreak' ? 'active' : ''} button">Long break</li>
             </ul>
 
             <div class="duration text-center">${this.duration}</div>
@@ -213,7 +233,7 @@ export abstract class Timer implements Itimer {
 
             <div class="float-left timer-lap-count">
 
-                <span>1</span> sur <span>5</span>
+                <span> ${this.laps} </span> sur <span> 5 </span>
                 
             </div>
 

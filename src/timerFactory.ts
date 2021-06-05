@@ -24,6 +24,8 @@ export class TimerFactory {
 
         TimerFactory.instance = timer;
 
+        Webview.mediatorTimer.notify('setInstance');
+
     }
 
 

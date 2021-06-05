@@ -18,13 +18,18 @@ export class StatusBarTimer extends StatusBar{
 
         this.itemDuration = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
 
-        webview.mediatorTimer.addEvent('state', () => {
+        Webview.mediatorTimer.addEvent('state', () => {
             this.itemStack.push(this.createCommandItem());
             this.display();
         });
 
-        webview.mediatorTimer.addEvent('setDuration', () => {
+        Webview.mediatorTimer.addEvent('setDuration', () => {
             this.itemStack.push(this.createDurationItem());
+            this.display();
+        });
+
+        Webview.mediatorTimer.addEvent('setInstance', () => {
+            this.create();
             this.display();
         });
 

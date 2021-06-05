@@ -17,19 +17,23 @@ export class Webview {
 
     public context: vscode.ExtensionContext;
 
-    public mediatorTimer: MediatorTimer;
+    public static mediatorTimer: MediatorTimer;
 
     constructor(context: vscode.ExtensionContext) {
 
         this.context = context;
         
-        this.mediatorTimer = new MediatorTimer(this);
+        Webview.mediatorTimer = new MediatorTimer(this);
         
         this.timer = TimerFactory.getInstance(this);
 
         this.statusBarTimer = new StatusBarTimer(this);
 
         this.view = new View(this);
+
+        Webview.mediatorTimer.addEvent('setInstance', () => {
+            this.timer = TimerFactory.getInstance(this);
+        });
 
         
     }

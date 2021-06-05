@@ -17,11 +17,15 @@ export class View {
 
         this.handleMessageFromWebview();
 
-        webview.mediatorTimer.addEvent('state', () => {
+        Webview.mediatorTimer.addEvent('state', () => {
             this.displayPanel();
         });
 
-        webview.mediatorTimer.addEvent('setDuration', () => {
+        Webview.mediatorTimer.addEvent('setDuration', () => {
+            this.displayPanel();
+        });
+
+        Webview.mediatorTimer.addEvent('setInstance', () => {
             this.displayPanel();
         });
 
