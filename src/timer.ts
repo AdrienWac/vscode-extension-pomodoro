@@ -70,11 +70,12 @@ export abstract class Timer implements Itimer {
      */
     protected getConfiguration(nameConfiguration: string): vscode.WorkspaceConfiguration {
 
-        if (nameConfiguration !== undefined) {
+        // if (nameConfiguration !== undefined) {
 
-            // return this.con
+        //     // return this.con
+        //     this.configuration.update()
 
-        }
+        // }
 
         return this.configuration;
 

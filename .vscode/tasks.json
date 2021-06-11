@@ -9,7 +9,8 @@
 			"problemMatcher": ["$tsc"],
 			// "isBackground": true,
 			"presentation": {
-				"reveal": "always"
+				"reveal": "silent",
+				"clear": true
 			},
 			"group": {
 				"kind": "build",
