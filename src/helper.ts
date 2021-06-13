@@ -5,28 +5,79 @@ export class Helper {
 
     static extract(obj: any, path: string): any {
 
-        // S'il n'y a pas d'acolade dans path
+        const regex = /[{]/;
+        if (regex.exec(path) === null) {
 
-            // Si pas de point dans path 
-                // On retourne obj[path]
+            if (path.indexOf('.') === -1) {
+                return obj[path];
+            }
 
-            // On explode le path avec le point en delimiter
-            
+            let splitPath = path.split('.');
 
-            // Si plus de 2 étapes
-                // On parcourt les étapes jusqu'a la valeur
-                // On retourne la valeur
+            if (splitPath.length === 2) {
 
-            
-            // Sinon (2 étapes ) on retourne obj[explodePath[0]][explodePath[1]]
+                return obj[splitPath[0]][splitPath[1]];
 
-        // Fin si
+            }
 
+            var result = obj;
+            splitPath.forEach(index => {
+                result = result[index];
+            });
 
+            if (result === undefined) {
+                throw new Error("The given path does not exist");
+            }
 
-        // On explode path 
+            return result;
 
-        return 'oui';
+        }
+
+        let tokens = path.split('.');
+        let keyObject = 'keyObject';
+        var testResult = {keyObject : [obj]};
+
+        tokens.forEach(token => {
+
+            var next = [];
+
+            for (let [keyItem, item] of Object.entries(testResult.keyObject)) {
+
+                for (let [key, value] of Object.entries(item)) {
+
+                    switch (token) {
+
+                        case '{n}':
+
+                            if (Number.isFinite(key)) {
+                                next.push(value);
+                            }
+                            break;
+
+                        case '{s}':
+
+                            if (typeof key === 'string') {
+                                next.push(value);
+                            }
+                            break;
+
+                        default:
+                            if (token === key) {
+                                next.push(value);
+                            }
+                            break;
+                    }
+
+                }
+
+            }
+
+            testResult.keyObject = [next];
+
+        });
+
+        return testResult.keyObject;
+        
 
     }
 
