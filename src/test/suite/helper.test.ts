@@ -31,14 +31,14 @@ suite('Helper Test', () => {
 			description: 'Extract path value with pattern key',
 			object: { 'keyFirstLevel': { 'keySecondLevel': { 'keyThirdLevel': 'ValueToExtract' } }, 'secondKeyFirstLevel': { 'keySecondLevel': { 'keyThirdLevel': 'secondvalueToExtract' } } },
 			path: '{s}.keySecondLevel.{s}',
-			exceptedResult: ['ValueToExtract', 'hjsdjshdjs']
+			exceptedResult: ['ValueToExtract','secondvalueToExtract']
 		}
 	];
 
 	datasProvider.forEach(provider => {
 		test(provider.description, () => {
-
-			assert.strictEqual(provider.exceptedResult, Helper.extract(provider.object, provider.path));
+			assert.deepStrictEqual(provider.exceptedResult, Helper.extract(provider.object, provider.path));
+			// assert.strictEqual(provider.exceptedResult, Helper.extract(provider.object, provider.path));
 		});
 	});
 

@@ -72,12 +72,11 @@ export class Helper {
 
             }
 
-            testResult.keyObject = [next];
+            testResult.keyObject = next;
 
         });
 
         return testResult.keyObject;
-        
 
     }
 
