@@ -23,7 +23,7 @@ export class WorkTimer extends Timer {
         this.setAttributesFromConfiguration(this.type);
 
         super.informationMessage = this.informationMessage;
-        
+
     }
 
     /**
@@ -31,7 +31,7 @@ export class WorkTimer extends Timer {
      */
     public nextTimerInstance(): Timer {
 
-        if (this.laps === 0) {
+        if (this.webview.loopTimer === 0) {
             return new LongBreakTimer(this.webview);
         }
 
@@ -39,7 +39,12 @@ export class WorkTimer extends Timer {
 
     }
 
+    public run(): void {
 
+        super.run();
 
+        this.webview.loopTimer = this.webview.loopTimer - 1;
+        
+    }
 
 }

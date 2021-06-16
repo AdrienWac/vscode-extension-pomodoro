@@ -15,6 +15,8 @@ export class Webview {
 
     public statusBarTimer: StatusBarTimer;
 
+    public loopTimer: number = 0;
+
     public context: vscode.ExtensionContext;
 
     public static mediatorTimer: MediatorTimer;
@@ -28,6 +30,8 @@ export class Webview {
         this.timer = TimerFactory.getInstance(this);
 
         this.statusBarTimer = new StatusBarTimer(this);
+
+        this.loopTimer = this.timer.getConfiguration('repeat');
 
         this.view = new View(this);
 

@@ -3,7 +3,7 @@ import { Itimer } from "./itimer";
 import * as vscode from 'vscode';
 import { WorkTimer } from "./workTimer";
 import { TimerFactory } from './timerFactory';
-
+import { Helper } from "./helper";
 
 export abstract class Timer implements Itimer {
 
@@ -19,8 +19,6 @@ export abstract class Timer implements Itimer {
 
     protected color: string = '#fff';
     
-    protected laps: number = 4;
-
     private interval: NodeJS.Timeout | undefined = undefined;
 
     protected informationMessage: { [key: string]: string; } = {  };
@@ -29,8 +27,6 @@ export abstract class Timer implements Itimer {
     constructor(webview: Webview) {
 
         this.configuration = vscode.workspace.getConfiguration('pomodoroTimer');
-
-        this.laps = this.configuration.repeat;
 
         this.webview = webview;
         
@@ -68,38 +64,15 @@ export abstract class Timer implements Itimer {
      * Mise à jour des configurations via le fichier de config
      * @param nameConfiguration 
      */
-    protected getConfiguration(nameConfiguration: string): vscode.WorkspaceConfiguration {
+    public getConfiguration(pathToConfiguration: string): any {
 
-        // if (nameConfiguration !== undefined) {
+        if (pathToConfiguration !== undefined) {
 
-        //     // return this.con
-        //     this.configuration.update()
-
-        // }
-
-        return this.configuration;
-
-    }
-
-
-    public extract(datas: any, path: string): any {
-        
-        if (path.indexOf('{') === -1) {
-            
-            for (let item of path.split('.')) {
-                
-                datas = datas[item];
-
-            }
-
-            return datas;
+            return Helper.extract(this.configuration, pathToConfiguration);
 
         }
 
-
-
-
-
+        return this.configuration;
 
     }
 
@@ -122,6 +95,7 @@ export abstract class Timer implements Itimer {
         Webview.mediatorTimer.notify('state');
         
     }
+
 
     public setDuration(duration: number): void {
 
@@ -157,11 +131,10 @@ export abstract class Timer implements Itimer {
 
         this.setState('run');
 
-        this.laps--;
-
         this.interval = setInterval(() => {
 
             this.duration = this.duration - 1;
+
             this.setDuration(this.duration);
 
             if (this.duration === 0) {
@@ -176,8 +149,13 @@ export abstract class Timer implements Itimer {
 
     /**
      * Fin du timer
+     * - Fin de l'interval
+     * - Envoi du message d'information
+     * - Création d'une nouvelle instance
+     * - Notification du changement d'état
+     * - Mise à jour du nombre de tour => pour timer longBreak
      */
-    private end(): void {
+    protected end(): void {
 
         if (this.interval) {
             clearInterval(this.interval);
@@ -196,8 +174,11 @@ export abstract class Timer implements Itimer {
      * Désactivation du compteur
      */
     public stop(): void {
+
         vscode.window.showInformationMessage('Stop');
+
         this.setState('stop');
+
     }
 
     /**
@@ -234,7 +215,7 @@ export abstract class Timer implements Itimer {
 
             <div class="float-left timer-lap-count">
 
-                <span> ${this.laps} </span> sur <span> 5 </span>
+                <span> ${this.webview.loopTimer} </span> sur <span> ${this.getConfiguration('repeat')} </span>
                 
             </div>
 

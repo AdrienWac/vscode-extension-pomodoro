@@ -31,4 +31,12 @@ export class LongBreakTimer extends Timer {
 
     }
 
+    public end(): void {
+        
+        super.end();
+
+        this.webview.loopTimer = this.getConfiguration('repeat');
+
+    }
+
 }
