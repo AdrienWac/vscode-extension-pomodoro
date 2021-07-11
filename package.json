@@ -41,7 +41,7 @@
 			"properties": {
 				"pomodoroTimer.work.duration": {
 					"type": "number",
-					"default": 25,
+					"default": 5,
 					"description": "Duration of a pomodoro"
 				},
 				"pomodoroTimer.shortBreak.duration": {
@@ -68,6 +68,11 @@
 					"type": "string",
 					"default": "5aa469",
 					"description": "Duration of long break timer"
+				},
+				"pomodoroTimer.repeat": {
+					"type": "number",
+					"default": "4",
+					"description": "Number of working timers in a cycle (after a long break)"
 				}
 			}
 		}

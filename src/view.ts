@@ -17,7 +17,15 @@ export class View {
 
         this.handleMessageFromWebview();
 
-        webview.mediatorTimer.addEvent('state', () => {
+        Webview.mediatorTimer.addEvent('state', () => {
+            this.displayPanel();
+        });
+
+        Webview.mediatorTimer.addEvent('setDuration', () => {
+            this.displayPanel();
+        });
+
+        Webview.mediatorTimer.addEvent('setInstance', () => {
             this.displayPanel();
         });
 
@@ -53,7 +61,7 @@ export class View {
 
         // Génération de l'uri pour le script js
         const pathToJsFile = vscode.Uri.file(
-            path.join(this.webview.context.extensionPath, 'assets', 'main.js')
+            path.join(this.webview.context.extensionPath, 'assets', 'main.js'),
         );
         const jsFileUri = this.panel.webview.asWebviewUri(pathToJsFile);
 
