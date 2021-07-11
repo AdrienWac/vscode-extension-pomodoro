@@ -2,6 +2,8 @@
 
     const vscode = acquireVsCodeApi();
 
+    let timer = null;
+
     var buttonStart = new buttonComand('run', vscode);
     var buttonStop = new buttonComand('stop', vscode);
 
@@ -14,11 +16,15 @@
 
         switch (message.command) {
 
-            case 'start':
+            // Modification de l'état du compteur
+            case 'state':
+                // console.log('ici');
+                console.log(message);
+                timer = new Timer(message.timerObjectToSend);
+                timer.run();
                 break;
 
-            case 'stop':
-                break;
+            
 
         }
 
@@ -58,6 +64,82 @@ function buttonComand(commandName, vscode) {
 
 };
 
+class Timer {
 
+    constructor(timerExtensionObject) {
 
+        const TIME_START_IN_SECONDS = timerExtensionObject.duration;
+        const BASE_TIMER_TOTAL_PATH_LENGTH = document.getElementById('base-timer-path-remaining').getTotalLength();
 
+        this.timerExtensionObject = timerExtensionObject;
+        this.timerInterval = null;
+        this.timerValue = TIME_START_IN_SECONDS;
+        this.strokeValue = 0;
+
+    }
+
+    /**
+    * Mise à jour de la valeur html du conteneur du timer
+    */
+    setTimerHtmlContent() {
+        // document.getElementById('base-timer-label').innerHTML = `${timerExtensionObject.timeToDisplay}`;
+        document.getElementById('base-timer-label').innerHTML = `${this.convertTimeToDisplayValue()}`;
+    }
+
+    /**
+     * Déclenchement du timer
+     */
+    run() {
+
+        this.timerInterval = setInterval(() => {
+
+            this.timerValue = this.timerValue - 1;
+
+            // if (timerValue <= 5 && timerValue > 0) {
+            //     document.getElementById('base-timer-label').innerHTML = '';
+            //     launchAnimation();
+            // } else {
+            //     setTimerHtmlContent(timerValue);
+            // }
+
+            this.setTimerHtmlContent();
+
+            // strokeValue = calculateStepStrokeDashArray(strokeValue);
+
+            // setCircleStrokeDashArray(
+            //     document.getElementById('base-timer-path-remaining'),
+            //     `${strokeValue} ${BASE_TIMER_TOTAL_PATH_LENGTH}`
+            // );
+
+            if (this.timerValue === 0) {
+                clearInterval(this.timerInterval);
+            }
+
+        }, 1000);
+
+    }
+
+    /**
+     * Formate le temps en seconde pour l'affichage
+     * @returns Temps au format MM:SS
+     */
+    convertTimeToDisplayValue() {
+
+        let minutes = Math.floor(this.timerValue / 60);
+        let result = '';
+
+        if (minutes < 10) {
+            result = `0${minutes}:`;
+        }
+
+        let seconds = this.timerValue % 60;
+
+        if (seconds < 10) {
+            result += `0${seconds}`;
+        }
+
+        return result;
+
+    }
+
+} 

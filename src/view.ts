@@ -18,11 +18,20 @@ export class View {
         this.handleMessageFromWebview();
 
         Webview.mediatorTimer.addEvent('state', () => {
-            this.displayPanel();
-        });
 
-        Webview.mediatorTimer.addEvent('setDuration', () => {
-            this.displayPanel();
+            let timer = this.webview.timer;
+            let timerDuration = timer.getDuration();
+
+            let timerObjectToSend = {
+                state: timer.getState(),
+                color: timer.getColor(),
+                duration: timer.getConfiguration(`${timer.getType()}.duration`),
+                timeValue: timerDuration,
+                timeToDisplay: timer.convertTimeToDisplayValue(timerDuration),
+            };
+
+            this.sendMessageToWebview({ command: 'state', timerObjectToSend });
+
         });
 
         Webview.mediatorTimer.addEvent('setInstance', () => {
@@ -55,7 +64,7 @@ export class View {
 
         // Génération de l'uri pour le style css
         const pathToCssFile = vscode.Uri.file(
-            path.join(this.webview.context.extensionPath, 'assets', 'style.css')
+            path.join(this.webview.context.extensionPath, 'assets', 'style', 'timer', 'timer.css')
         );
         const cssFileUri = this.panel.webview.asWebviewUri(pathToCssFile);
 
@@ -104,6 +113,9 @@ export class View {
         </html>`;
     }
 
+    /**
+     * Traitement des messages envoyés par la webview 
+     */
     public handleMessageFromWebview(): void {
 
         // Récupération des messages de la webView
@@ -127,6 +139,16 @@ export class View {
             undefined,
             this.webview.context.subscriptions
         );
+    }
+
+    /**
+     * Envoi un message à la webvbiew
+     * @param message 
+     */
+    public sendMessageToWebview(message: Object): void {
+
+        this.panel.webview.postMessage(message);
+
     }
 
 }

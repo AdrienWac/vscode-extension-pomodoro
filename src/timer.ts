@@ -121,29 +121,13 @@ export abstract class Timer implements Itimer {
     /**
      * Activation du compteur
      * - Message d'information
-     * - Mise à jour de l'état du timer
-     * - Décrémentation du laps => pour timer work
-     * - Lancement de l'interval
+     * - Mise à jour de l'état du timerl
      */
     public run(): void {
 
         vscode.window.showInformationMessage(this.informationMessage['run']);
 
         this.setState('run');
-
-        this.interval = setInterval(() => {
-
-            this.duration = this.duration - 1;
-
-            this.setDuration(this.duration);
-
-            if (this.duration === 0) {
-
-                this.end();
-
-            }
-
-        }, 1000);
 
     }
 
@@ -215,7 +199,7 @@ export abstract class Timer implements Itimer {
 
 				</svg>
 
-				<span id="base-timer-label" class="base-timer__value">01:30</span>
+				<span id="base-timer-label" class="base-timer__value">${this.convertTimeToDisplayValue(this.duration)}</span>
 
 				<span class="base-timer__value">
 
@@ -289,6 +273,30 @@ export abstract class Timer implements Itimer {
             <div class="clear"></div>
 
         </div>`;
+
+    }
+
+    /**
+     * Formate le temps en seconde pour l'affichage
+     * @param {number} timeInSeconds
+     * @returns Temps au format MM:SS
+     */
+    public convertTimeToDisplayValue(timeInSeconds: number): string{
+
+        let minutes = Math.floor(timeInSeconds / 60);
+        let result = '';
+
+        if (minutes < 10) {
+            result = `0${minutes}:`;
+        }
+
+        let seconds = timeInSeconds % 60;
+
+        if (seconds < 10) {
+            result += `0${seconds}`;
+        }
+
+        return result;
 
     }
 
