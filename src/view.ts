@@ -61,7 +61,7 @@ export class View {
 
         // Génération de l'uri pour le script js
         const pathToJsFile = vscode.Uri.file(
-            path.join(this.webview.context.extensionPath, 'assets', 'main.js')
+            path.join(this.webview.context.extensionPath, 'assets', 'main.js'),
         );
         const jsFileUri = this.panel.webview.asWebviewUri(pathToJsFile);
 
