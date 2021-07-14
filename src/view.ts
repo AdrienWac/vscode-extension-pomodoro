@@ -9,7 +9,7 @@ export class View {
 
     public webview: Webview;
 
-    constructor(webview: Webview) {
+    constructor(webview: Webview) {  
 
         this.webview = webview;
 
@@ -19,23 +19,18 @@ export class View {
 
         Webview.mediatorTimer.addEvent('state', () => {
 
-            let timer = this.webview.timer;
-            let timerDuration = timer.getDuration();
+            this.sendMessageToWebview({ command: 'state', timer: this.webview.timer.createWebviewObject() });
 
-            let timerObjectToSend = {
-                state: timer.getState(),
-                color: timer.getColor(),
-                duration: timer.getConfiguration(`${timer.getType()}.duration`),
-                timeValue: timerDuration,
-                timeToDisplay: timer.convertTimeToDisplayValue(timerDuration),
-            };
+        });
 
-            this.sendMessageToWebview({ command: 'state', timerObjectToSend });
+        Webview.mediatorTimer.addEvent('setDuration', () => {
+
+            this.sendMessageToWebview({ command: 'setDuration', timer: this.webview.timer.createWebviewObject() });
 
         });
 
         Webview.mediatorTimer.addEvent('setInstance', () => {
-            this.displayPanel();
+            this.sendMessageToWebview({ command: 'setInstance', timer: this.webview.timer.createWebviewObject() });
         });
 
     }

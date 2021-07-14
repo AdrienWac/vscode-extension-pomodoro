@@ -129,6 +129,20 @@ export abstract class Timer implements Itimer {
 
         this.setState('run');
 
+        this.interval = setInterval(() => {
+
+            this.duration = this.duration - 1;
+
+            this.setDuration(this.duration);
+
+            if (this.duration === 0) {
+
+                this.end();
+
+            }
+
+        }, 1000);
+
     }
 
     /**
@@ -167,7 +181,7 @@ export abstract class Timer implements Itimer {
 
     public generateHtml(): string {
 
-        return `<div class="timer-container">
+        return `<div id="timer" class="timer-container">
 
 			<ul class="list-timer-button">
 				<li class="${this.type === 'work' ? 'active' : ''} list-timer-button__item--active list-timer-button__item">Work</li>
@@ -233,46 +247,19 @@ export abstract class Timer implements Itimer {
     }
 
     /**
-     * Générère le contenu html du timer
+     * Formate le timer pour la webview
      * @returns 
      */
-    public backupGenerateHtml(): string {
+    public createWebviewObject(): Object{
         
-        return `<div class="timer-container">
-
-            <ul class="timer-type">
-                <li class="${this.type === 'work' ? 'active' : ''} button">Work</li>
-                <li class="${this.type === 'shortBreak' ? 'active' : ''} button" >Short break</li>
-                <li class="${this.type === 'longBreak' ? 'active' : ''} button">Long break</li>
-            </ul>
-
-            <div class="duration text-center">${this.duration}</div>
-
-            <div class="timer-command">
-
-                <button class="button btn-command" data-command="${this.state === 'run' ? 'stop' : 'run'}"> 
-                    ${this.state === 'run' ? 'Stop' : 'Start'} 
-                </button>
-
-            </div>
-
-            <hr>
-
-            <div class="float-right timer-lap-time-end">
-
-                <span>Heure de fin : 12h23</span>
-
-            </div>
-
-            <div class="float-left timer-lap-count">
-
-                <span> Cycles restant : ${this.webview.loopTimer} </span> ${this.getConfiguration('repeat')} 
-                
-            </div>
-
-            <div class="clear"></div>
-
-        </div>`;
+        return {
+            type: this.type,
+            state: this.state,
+            color: this.color,
+            initializationTime: this.getConfiguration(`${this.getType()}.duration`),
+            duration: this.duration,
+            timeToDisplay: this.convertTimeToDisplayValue(this.duration),
+        };
 
     }
 

@@ -1,8 +1,85 @@
+const NAME_RUN_COMMAND = 'run';
+const NAME_STOP_COMMAND = 'stop';
+
+class Timer {
+
+
+    constructor(timerDomElement) {
+
+        this.timerDomElement = timerDomElement;
+        this.timerExtensionObject = null;
+
+        const BASE_TIMER_TOTAL_PATH_LENGTH = document.getElementById('base-timer-path-remaining').getTotalLength();
+
+        this.strokeValue = 0;
+
+    }
+
+    /**
+     * Mise à jour de l'objet timer provenant de l'extension
+     * @param {*} timerExtensionObject Objet timer provenant de l'extension
+     */
+    setTimerExtensionObject(timerExtensionObject) {
+        this.timerExtensionObject = timerExtensionObject;
+    }
+
+    /**
+    * Mise à jour de la valeur html du conteneur du timer
+    */
+    setTimerHtmlContent() {
+        document.getElementById('base-timer-label').innerHTML = `${this.timerExtensionObject.timeToDisplay}`;
+    }
+
+    /**
+     * Mise à jour de la couleur de fond du timer
+     */
+    setBackground() {
+        console.log(this.timerExtensionObject);
+        this.timerDomElement.style.backgroundColor = this.timerExtensionObject.color;
+    }
+
+    /**
+     * Mise à jour du bouton de commande du timer
+     */
+    setCommandBtn() {
+
+        let domElement = document.querySelector('.timer-container__button');
+        domElement.innerHTML = this.timerExtensionObject.state === 'run' ? 'STOP' : 'START';
+        domElement.dataset.command = this.timerExtensionObject.state === 'run' ? NAME_STOP_COMMAND : NAME_RUN_COMMAND;
+
+    }
+
+    /**
+     * Déclenchement du timer
+     */
+    run() {
+
+        // if (timerValue <= 5 && timerValue > 0) {
+        //     document.getElementById('base-timer-label').innerHTML = '';
+        //     launchAnimation();
+        // } else {
+        //     setTimerHtmlContent(timerValue);
+        // }
+
+        this.setTimerHtmlContent();
+
+        // strokeValue = calculateStepStrokeDashArray(strokeValue);
+
+        // setCircleStrokeDashArray(
+        //     document.getElementById('base-timer-path-remaining'),
+        //     `${strokeValue} ${BASE_TIMER_TOTAL_PATH_LENGTH}`
+        // );
+
+    }
+
+}
+
+
 (function () {
 
     const vscode = acquireVsCodeApi();
 
-    let timer = null;
+    let timer = new Timer(document.getElementById('timer'));
 
     var buttonStart = new buttonComand('run', vscode);
     var buttonStop = new buttonComand('stop', vscode);
@@ -14,23 +91,33 @@
 
         const message = event.data; // The JSON data our extension sent
 
+        timer.setTimerExtensionObject(message.timer);
+        console.log(message.timer.type);
+
         switch (message.command) {
 
             // Modification de l'état du compteur
             case 'state':
-                // console.log('ici');
-                console.log(message);
-                timer = new Timer(message.timerObjectToSend);
+                timer.setCommandBtn();
+                break;
+
+            // Mise à jour du temps
+            case 'setDuration':
                 timer.run();
                 break;
 
-            
+            // Nouvelle instance de timer
+            case 'setInstance':
+                console.log('setInstance');
+                timer.setBackground();
+                timer.setTimerHtmlContent();
+                break;
 
         }
 
     });
 
-    
+
 
 }());
 
@@ -64,82 +151,3 @@ function buttonComand(commandName, vscode) {
 
 };
 
-class Timer {
-
-    constructor(timerExtensionObject) {
-
-        const TIME_START_IN_SECONDS = timerExtensionObject.duration;
-        const BASE_TIMER_TOTAL_PATH_LENGTH = document.getElementById('base-timer-path-remaining').getTotalLength();
-
-        this.timerExtensionObject = timerExtensionObject;
-        this.timerInterval = null;
-        this.timerValue = TIME_START_IN_SECONDS;
-        this.strokeValue = 0;
-
-    }
-
-    /**
-    * Mise à jour de la valeur html du conteneur du timer
-    */
-    setTimerHtmlContent() {
-        // document.getElementById('base-timer-label').innerHTML = `${timerExtensionObject.timeToDisplay}`;
-        document.getElementById('base-timer-label').innerHTML = `${this.convertTimeToDisplayValue()}`;
-    }
-
-    /**
-     * Déclenchement du timer
-     */
-    run() {
-
-        this.timerInterval = setInterval(() => {
-
-            this.timerValue = this.timerValue - 1;
-
-            // if (timerValue <= 5 && timerValue > 0) {
-            //     document.getElementById('base-timer-label').innerHTML = '';
-            //     launchAnimation();
-            // } else {
-            //     setTimerHtmlContent(timerValue);
-            // }
-
-            this.setTimerHtmlContent();
-
-            // strokeValue = calculateStepStrokeDashArray(strokeValue);
-
-            // setCircleStrokeDashArray(
-            //     document.getElementById('base-timer-path-remaining'),
-            //     `${strokeValue} ${BASE_TIMER_TOTAL_PATH_LENGTH}`
-            // );
-
-            if (this.timerValue === 0) {
-                clearInterval(this.timerInterval);
-            }
-
-        }, 1000);
-
-    }
-
-    /**
-     * Formate le temps en seconde pour l'affichage
-     * @returns Temps au format MM:SS
-     */
-    convertTimeToDisplayValue() {
-
-        let minutes = Math.floor(this.timerValue / 60);
-        let result = '';
-
-        if (minutes < 10) {
-            result = `0${minutes}:`;
-        }
-
-        let seconds = this.timerValue % 60;
-
-        if (seconds < 10) {
-            result += `0${seconds}`;
-        }
-
-        return result;
-
-    }
-
-} 
