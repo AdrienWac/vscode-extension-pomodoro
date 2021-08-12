@@ -6,14 +6,9 @@ export class MediatorTimer implements IMediator {
 
     private eventsStack: { [key: string]: Array<Function>; } = {};
 
-    private webview: Webview;
+    constructor() {}
 
-    constructor(webview: Webview) {
-        this.webview = webview;
-        
-    }
-
-    public addEvent(libelleEvent: string, callback: Function): void {
+    public addEvent(libelleEvent: string, callback: Function, options: {[key: string]: any}): void {
 
         if (!this.eventsStack.hasOwnProperty(libelleEvent)) {
 
@@ -35,6 +30,16 @@ export class MediatorTimer implements IMediator {
             callback();
         }
 
+    }
+
+    // private handlePriority()
+
+    /**
+     * Getter de la stack d'event
+     * @returns eventStack du MediatorTimer
+     */
+    public getEventStack(): { [key: string]: Array<Function>; } {
+        return this.eventsStack;
     }
 
 }

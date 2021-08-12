@@ -25,7 +25,7 @@ export class Webview {
 
         this.context = context;
         
-        Webview.mediatorTimer = new MediatorTimer(this);
+        Webview.mediatorTimer = new MediatorTimer();
         
         this.timer = TimerFactory.getInstance(this);
 
