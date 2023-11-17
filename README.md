@@ -1,3 +1,6 @@
+# Documentation for anatomy of extension example
+https://code.visualstudio.com/api/get-started/extension-anatomy
+
 # vscode-extension-pomodoro README
 
 This is the README for your extension "vscode-extension-pomodoro". After writing up a brief description, we recommend including the following sections.
