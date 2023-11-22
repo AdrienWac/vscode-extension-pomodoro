@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./:/home/node/app/
+    container_name: vs-code-extension
+    command: tail -f /dev/null
