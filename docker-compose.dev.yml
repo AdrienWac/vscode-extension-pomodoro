@@ -1,11 +1,13 @@
 version: '3.7'
 
 services:
-  web:
+  vscode-extension:
     build:
       context: .
       dockerfile: Dockerfile
-      target: base
+      target: dev
+      tags:
+        - "vscode-extension-pomodoro-timer:dev"
     volumes:
       - ./:/home/node/app/
     container_name: vs-code-extension
