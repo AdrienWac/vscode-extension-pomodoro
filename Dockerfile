@@ -6,13 +6,14 @@ USER root
 
 RUN apt update && apt install sudo
 
-COPY pomodorotimer/* .
+COPY pomodorotimer/ .
 
 FROM base as dev
+
+RUN apt install vim
 
 RUN npm i -g npm && npm i -g yo generator-code
 
 FROM base as build
 
-RUN npm run compile
-
+RUN npm i -g npm @vscode/vsce && npm i typescript

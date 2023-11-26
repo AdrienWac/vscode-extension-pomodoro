@@ -1,0 +1,7 @@
+version: '3.7'
+
+services:
+  vscode-extension-build:
+    image: vscode-extension-pomodoro-timer:build
+    container_name: vscode-extension-build
+    command: tail -f /dev/null
