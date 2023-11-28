@@ -42,7 +42,18 @@ set_version_in_package_json()
   echo  "`jq --arg versionExtension $1 '.version = $ARGS.named.versionExtension' pomodorotimer/package.json`" > pomodorotimer/package.json
 }
 
-echo "Package your extension - $version - $message"
+
+# Prompt confirm from user
+while true; do
+    read -p "Are-you sure to package extension?" yn
+    case $yn in
+        [Yy]* ) break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+echo "Package extension - $version - $message"
 if [ "$dryrun" = true ]
 then
   echo "Dry run is ON"
