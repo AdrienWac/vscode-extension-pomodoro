@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Usage info
 # package.sh -dryrun -v v1.0.1 "YOUR_VERSIONING_MESSAGE" => dry run version
@@ -12,22 +12,38 @@
 # -m VERSIONING_MESSAGE_VALUE => Message use for git tag & git commit commands.
 
 # Handle options
+dryrun=false
+version=
+message=
 while :; do
   case $1 in
     -dr|--dryrun)
       dryrun=true
+      ;;
     -v|--version)
       version=$2
+      shift
+      ;;
     -m|--message)
       message=$2
+      shift
+      ;;
     *)
       break
+  esac
+
+  shift # Décale la liste des arguments vers la gauche. monscript.sh arg1 arg2 arg3 => monscript.sh arg2 arg3 ($1 devient arg2)
+done
 # versionNumber=$1
 # messageTag=$2
 
-echo "Package your extension - $versionNumber - $messageTag"
-handle_options_and_arguments $1
-
+echo "Package your extension - $version - $message"
+if [ "$dryrun" = true ]
+then
+  echo "Dry run is ON"
+else
+  echo "Dry run is OFF"
+fi
 # [OK] Stash des modifications présentes dans la répertoire de travail git
 # env -i git stash push -m "Stash before package version $versionNumber"
 
@@ -48,9 +64,9 @@ handle_options_and_arguments $1
   #   vscode-extension-pomodoro-timer:build \
   #   sh -c "vsce package"
 
-# Si dry-run = false 
+# Si dry-run = false
 # Commit avec la nouvelle version du package
-# git commit 
+# git commit
 # Si dry-run = false
 # Création d'un nouveau tag git
 
