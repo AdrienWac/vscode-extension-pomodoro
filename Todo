@@ -1,0 +1,1 @@
+- Package.sh => argument versionType => type de version X.Y.Z (# X => major # Y => minor # Z => patch). Récupère la valeur dans package.json et incrémente le bon numéro
