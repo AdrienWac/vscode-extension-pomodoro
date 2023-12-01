@@ -5,6 +5,7 @@ import * as vscode from 'vscode';
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+  let panel: vscode.WebviewPanel | undefined = undefined;
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
@@ -19,7 +20,100 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.showInformationMessage('Hello World from PomodoroTimer!');
 	});
 
+  let openWebview = vscode.commands.registerCommand('pomodorotimer.open', () => {
+    if (panel) {
+			panel.reveal();
+		} else {
+			panel = createWebView();
+		}
+    
+    panel.webview.html = getHtmlContent();
+
+    panel.onDidDispose(
+      () => {
+        console.log('Panel closed. Webview is destroyed.');
+        
+      },
+      null,
+      context.subscriptions
+    );
+
+  });
+
 	context.subscriptions.push(disposable);
+  context.subscriptions.push(openWebview);
+}
+
+/**
+ * Création d'une web view
+ * @returns 
+ */
+function createWebView(): vscode.WebviewPanel
+{
+	
+	return vscode.window.createWebviewPanel(
+		'pomodoroTimer',
+		'Pomodoro Timer',
+		vscode.ViewColumn.One,
+		{
+			enableScripts: true
+		}
+	);
+
+}
+
+function getHtmlContent(): string
+{
+	return `<!DOCTYPE html>
+
+	<html lang="en">
+
+		<head>
+			<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<title>Pomodoro Timer</title>
+		</head>
+
+		<body>
+
+			<h1>Pomodoro Timer</h1>
+
+			<p id="counter">0</p>
+
+			<script>
+
+				var counter = document.getElementById('counter');
+				var count = 0;
+				var interval = undefined;
+
+				window.addEventListener('message', event => {
+
+					let message = event.data;
+
+					switch (message.command) {
+						
+						case 'start':
+							interval = setInterval(() => {
+								counter.textContent = count++;
+							}, 100);
+							break;
+
+						case 'stop':
+							console.log(interval);
+							if (interval) {
+								clearInterval(interval);
+							}
+							break;
+						
+					}
+
+				});
+
+			</script>
+
+		</body>
+
+	</html>`;
 }
 
 // This method is called when your extension is deactivated
