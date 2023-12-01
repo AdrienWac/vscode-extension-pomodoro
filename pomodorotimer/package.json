@@ -9,13 +9,34 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onCommand:pomodorotimer.open",
+		"onCommand:pomodorotimer.close",
+		"onCommand:pomodorotimer.start",
+		"onCommand:pomodorotimer.stop"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "pomodorotimer.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "pomodorotimer.open",
+        "title": "Open timer webview"
+      },
+      {
+        "command": "pomodorotimer.close",
+        "title": "Close timer webview. If a timer is started, it will be stopped."
+      },
+      {
+        "command": "pomodorotimer.start",
+        "title": "Start timer."
+      },
+      {
+        "command": "pomodorotimer.stop",
+        "title": "Stop timer."
       }
     ]
   },
