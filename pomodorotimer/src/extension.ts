@@ -1,11 +1,12 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import * as path from "path";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-  let panel: vscode.WebviewPanel | undefined = undefined;
+  let panel: vscode.WebviewPanel;
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
@@ -27,17 +28,33 @@ export function activate(context: vscode.ExtensionContext) {
 			panel = createWebView();
 		}
     
-    panel.webview.html = getHtmlContent();
+  
+    if (panel) {
 
-    panel.onDidDispose(
-      () => {
-        console.log('Panel closed. Webview is destroyed.');
-        
-      },
-      null,
-      context.subscriptions
-    );
+      const dependencyNameList: string[] = [
+          "index.css",
+          "index.js"
+      ];
 
+      const dependencyList: vscode.Uri[] = dependencyNameList.map((item) =>
+        panel.webview.asWebviewUri(
+            vscode.Uri.file(
+                path.join(context.extensionPath, "vue-dist", "assets", item)
+            )
+        )
+      );
+    
+      panel.webview.html = getHtmlContent(dependencyList);
+
+      panel.onDidDispose(
+        () => {
+          console.log('Panel closed. Webview is destroyed.');
+          
+        },
+        null,
+        context.subscriptions
+      );
+    }
   });
 
 	context.subscriptions.push(disposable);
@@ -62,7 +79,7 @@ function createWebView(): vscode.WebviewPanel
 
 }
 
-function getHtmlContent(): string
+function getHtmlContent(dependencyList: vscode.Uri[]): string
 {
 	return `<!doctype html>
   <html lang="en">
@@ -71,8 +88,11 @@ function getHtmlContent(): string
       <link rel="icon" type="image/svg+xml" href="/vite.svg" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Vite + Vue</title>
-      <script type="module" crossorigin src="/assets/index.js"></script>
-      <link rel="stylesheet" crossorigin href="/assets/index.css">
+      <script>
+          const vscode = acquireVsCodeApi();
+      </script>
+      <script type="module" crossorigin src="${dependencyList[1]}"></script>
+      <link rel="stylesheet" crossorigin href="${dependencyList[0]}">
     </head>
     <body>
       <div id="app"></div>
