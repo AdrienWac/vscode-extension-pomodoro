@@ -9,13 +9,19 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onCommand:pomodorotimer.open"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "pomodorotimer.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "pomodorotimer.open",
+        "title": "Open pomodorotimer webview"
       }
     ]
   },
