@@ -1,0 +1,38 @@
+version: '3.3'
+
+services:
+  todo-ui-vue:
+    build:
+      context: "~/Projets/environment/${PROJECT_NAME}/docker/"
+      tags:
+        - "todo-ui-vue:dev"
+    env_file:
+      - .env
+    container_name: todo-ui-vue"
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - "traefik.http.routers.${PROJECT_NAME}_web.entrypoints=web"
+      - "traefik.http.routers.${PROJECT_NAME}_web.rule=Host(`${PROJECT_BASE_URL}`)"
+      - "traefik.http.routers.${PROJECT_NAME}_websecure.entrypoints=websecure"
+      - "traefik.http.routers.${PROJECT_NAME}_websecure.rule=Host(`${PROJECT_BASE_URL}`)"
+      - "traefik.http.routers.${PROJECT_NAME}_websecure.tls=true"
+      - "traefik.http.routers.${PROJECT_NAME}_websecure.tls.certresolver=le"
+    volumes:
+      - ~/Projets/vscode-extension-pomodoro/ui/vue:/home/node/app
+    networks:
+      - web
+      - "${PROJECT_NAME}"
+    expose:
+      - '3600'
+    ports:
+      - '3600:4000'
+    command: npm run dev
+
+networks:
+  web:
+    name: todo
+    external: true
+  todo:
+    driver: bridge
+    name: "${PROJECT_NAME}"

@@ -1,11 +1,11 @@
 version: '3.3'
 
 services:
-  pomodorotimer-web:
+  todo-app:
     build:
       context: "~/Projets/environment/${PROJECT_NAME}/docker/"
       tags:
-        - "pomodorotimer-web:dev"
+        - "todo-app:dev"
     env_file:
       - .env
     container_name: "${PROJECT_NAME}_web"
@@ -31,8 +31,8 @@ services:
 
 networks:
   web:
-    name: web
+    name: todo
     external: true
-  pomodorotimer:
+  todo:
     driver: bridge
     name: "${PROJECT_NAME}"
