@@ -3,7 +3,7 @@ version: '3.3'
 services:
   todo-ui-vue:
     build:
-      context: "~/Projets/environment/${PROJECT_NAME}/docker/"
+      context: "~/Projets/vscode-extension-pomodoro/ui/vue/"
       tags:
         - "todo-ui-vue:dev"
     env_file:
@@ -22,6 +22,7 @@ services:
       - ~/Projets/vscode-extension-pomodoro/ui/vue:/home/node/app
     networks:
       - web
+      - todo_app
       - "${PROJECT_NAME}"
     expose:
       - '3600'
@@ -31,8 +32,11 @@ services:
 
 networks:
   web:
-    name: todo
+    name: web
     external: true
-  todo:
+  todo_app:
+    name: todo_app
+    external: true
+  todo_ui_vue:
     driver: bridge
     name: "${PROJECT_NAME}"
