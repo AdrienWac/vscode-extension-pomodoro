@@ -1,0 +1,12 @@
+# Ignore vendor directory (Generate by composer cmd in build cmd)
+vendor
+# Pour le stage de dev il faudra une commande COPY pour copier le répertoire
+test
+
+docker
+
+# Pour les autres stages (dev, deploy, build) il faudra une commande COPY pour copier le répertoire
+migrations
+
+
+
