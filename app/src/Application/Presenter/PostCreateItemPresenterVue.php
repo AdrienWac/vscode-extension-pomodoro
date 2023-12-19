@@ -7,12 +7,14 @@ use App\Domain\Presenter\PostCreateItemPresenter;
 class PostCreateItemPresenterVue implements PostCreateItemPresenter
 {
 
+  protected $viewModel;
+
   /**
    * Transform object response from domain to object for Vue JS
    */
   public function present()
   {
-    # Est-ce que je créé une Response symfony ici ? 
+    // Utilisation du ViewModelJson
   }
 
 }

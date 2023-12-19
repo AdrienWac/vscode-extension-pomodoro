@@ -5,7 +5,7 @@ namespace App\Application\Controller;
 use App\Domain\PostCreateItemResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class PostCreateItemControllerSymfony implements PostCreateItemInterface
+class PostCreateItemControllerSymfony implements CreateItemInterface
 {
 
   public function create(object $request): PostCreateItemResponse
