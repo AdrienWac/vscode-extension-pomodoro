@@ -2,7 +2,7 @@
 
 namespace App\Domain\Presenter;
 
-interface PostCreateItemPresenter
+interface CreateItemPresenterInterface
 {
   public function present();
 }

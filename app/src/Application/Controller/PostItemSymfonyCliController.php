@@ -4,7 +4,7 @@ namespace App\Application\Controller;
 
 use App\Domain\PostCreateItemResponse;
 
-class SymfonyCliCreateItemController implements CreateItemInterface
+class PostItemSymfonyCliController implements CreateItemInterface
 {
     public function create(object $symfonyCliItem): PostCreateItemResponse
     {
