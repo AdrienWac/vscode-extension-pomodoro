@@ -1,4 +1,3 @@
-post_create_item:
-    path: /item
-    controller: App\Controller\PostItemController::index
-    methods: POST
+web_controllers:
+    resource: '../src/UI/HTTP/Web/Controller/config'
+    type: directory

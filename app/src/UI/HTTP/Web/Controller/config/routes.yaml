@@ -1,0 +1,4 @@
+post_create_item:
+    path: /item
+    controller: App\UI\HTTP\Web\Controller\PostItemController::index
+    methods: POST
