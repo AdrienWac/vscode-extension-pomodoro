@@ -2,22 +2,22 @@
 
 namespace App\Domain\Entity;
 
-class PostCreateItem
+class PostItem
 {
 
-  public function __construct(protected string $name, protected string $description)
+  public function __construct(protected string $title, protected string $description)
   {
     
   }
 
-  public function setName(string $_name): void
+  public function setTitle(string $_title): void
   {
-    $this->name = $_name;
+    $this->title = $_title;
   }
 
-  public function getName(): string
+  public function getTitle(): string
   {
-    return $this->name;
+    return $this->title;
   }
 
   public function setDescription(string $_description): void

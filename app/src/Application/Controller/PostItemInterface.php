@@ -2,9 +2,7 @@
 
 namespace App\Application\Controller;
 
-use App\Domain\PostCreateItemResponse;
-
-interface CreateItemInterface
+interface PostItemInterface
 {
-  public function create(Object $externalRequest): PostCreateItemResponse;
+  public function create(Object $externalRequest);
 }
