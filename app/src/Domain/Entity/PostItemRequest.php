@@ -2,7 +2,7 @@
 
 namespace App\Domain\Entity;
 
-class PostItem
+class PostItemRequest
 {
 
   public function __construct(protected string $title, protected string $description)

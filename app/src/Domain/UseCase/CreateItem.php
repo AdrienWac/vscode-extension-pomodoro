@@ -2,9 +2,12 @@
 
 namespace App\Domain\UseCase;
 
-class CreateItem implements UseCaseInterface
+use App\Domain\Entity\PostItemRequest;
+use App\Domain\Presenter\PostItemPresenterInterface;
+
+class CreateItem
 {
-  public function execute()
+  public function execute(PostItemRequest $postItemRequest, PostItemPresenterInterface $postItemPresenter)
   {
     // Instanciate new Item object domain
     // Validate data of object domain

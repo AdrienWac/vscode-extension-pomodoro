@@ -2,7 +2,10 @@
 
 namespace App\UI\CLI\Command;
 
+use App\Application\Controller\ControllerCollectionInterface;
+use App\Application\Controller\ControllerInterface;
 use App\Application\Controller\CreateItemInterface;
+use App\Application\Controller\PostItemSymfonyCliController;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -20,9 +23,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class CreateItemCommand extends Command
 {
 
-    // public function __construct(protected CreateItemInterface $symfonyCliCreateItemController)
-    // {
-    // }
+    protected ControllerInterface $postItemController;
+
+    public function __construct(ControllerCollectionInterface $controllerCollection)
+    {
+        $this->postItemController = $controllerCollection[PostItemSymfonyCliController::SERVICE_TAG_INDEX];
+    }
 
     protected function configure(): void
     {

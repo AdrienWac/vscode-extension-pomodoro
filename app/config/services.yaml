@@ -20,9 +20,15 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    _instanceof:
+      App\Application\ControllerInterface:
+        tags: ['application.controller']
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    create_item_command:
-      class: App\UI\CLI\Command\CreateItemCommand
+    App\UI\CLI\Command\CreateItemCommand:
       tags:
         -  { name: console.command }
+
+    App\Application\Controller\ControllerCollection:
+      arguments: [!tagged_iterator { tag: 'app.handler', default_index_method: 'getIndex' }]  

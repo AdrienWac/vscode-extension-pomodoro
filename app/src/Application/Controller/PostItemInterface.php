@@ -2,7 +2,9 @@
 
 namespace App\Application\Controller;
 
+use stdClass;
+
 interface PostItemInterface
 {
-  public function create(Object $externalRequest);
+  public function create(object $externalRequest);
 }

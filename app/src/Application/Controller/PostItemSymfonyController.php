@@ -2,30 +2,37 @@
 
 namespace App\Application\Controller;
 
-use App\Domain\PostCreateItemResponse;
+use App\Domain\Presenter\PostItemPresenterInterface;
 use App\Domain\UseCase\CreateItem;
 use App\Domain\UseCase\UseCaseInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class PostItemSymfonyController implements CreateItemInterface
+class PostItemSymfonyController implements PostItemInterface, ControllerInterface
 {
-    public function __construct(protected UseCaseInterface $createItemUseCase, protected CreateItemPresenterInterface $presenter)
+    const SERVICE_TAG_INDEX = 'post_item_symfony';
+    
+    public function __construct(protected UseCaseInterface $createItemUseCase, protected PostItemPresenterInterface $presenter)
     {
     }
 
-    public function create(Request $request): ressources
+    public function getIndex(): string
+    {
+        return self::SERVICE_TAG_INDEX;
+    }
+
+    public function create(object $externalRequest)
     {
         // Création d'un obj PostItem interne depuis l'objet $request
         $internalRequest = new CreateItem(
-            $request->getContent()['title'], 
-            $request->getContent()['description']
+            $externalRequest->getContent()['title'], 
+            $externalRequest->getContent()['description']
         );
 
         // Execution du use case CreateItem
-        $this->createItemUseCase->execute()
+        // $this->createItemUseCase->execute();
         // Render du view model du presenter passer en argument
-        var_dump($request->getContent());die;
-        return new PostCreateItemResponse();
+        var_dump($externalRequest->getContent());die;
+        // return new PostCreateItemResponse();
     }
 
 }
