@@ -27,7 +27,8 @@ class CreateItemCommand extends Command
 
     public function __construct(ControllerCollectionInterface $controllerCollection)
     {
-        $this->postItemController = $controllerCollection[PostItemSymfonyCliController::SERVICE_TAG_INDEX];
+        $this->postItemController = $controllerCollection->getController(PostItemSymfonyCliController::SERVICE_TAG_INDEX);
+        parent::__construct();
     }
 
     protected function configure(): void
@@ -56,7 +57,9 @@ class CreateItemCommand extends Command
 
         $io->note(sprintf('Description: %s ', $itemDescription));
 
-        // $this->symfonyCliCreateItemController->create()
+        $postItemRequestSymfonyCli = new PostItemRequestSymfonyCliModel(title: $itemTitle, description: $itemDescription);
+
+        $this->postItemController->create($postItemRequestSymfonyCli);
 
         // $io->horizontalTable(['Title', 'Description'], [$itemTitle, $itemDescription]);
 
