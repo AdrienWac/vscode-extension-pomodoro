@@ -2,6 +2,7 @@
 
 namespace App\Application\Controller;
 
+use App\Application\DTO\PostItemRequestDTO;
 use App\Domain\Entity\PostItemRequest;
 use App\Domain\Presenter\PostItemPresenterInterface;
 use App\Domain\UseCase\UseCaseInterface;
@@ -15,10 +16,10 @@ class PostItemSymfonyCliController implements PostItemInterface, ControllerInter
 
     public function __construct(
         private readonly UseCaseInterface $useCase, 
-        private readonly PostItemPresenterInterface $presenter
+        // private readonly PostItemPresenterInterface $presenter
     ){}
 
-    public function getIndex(): string
+    public static function getIndex(): string
     {
         return self::SERVICE_TAG_INDEX;
     }
@@ -27,14 +28,13 @@ class PostItemSymfonyCliController implements PostItemInterface, ControllerInter
     {
         var_dump($cliPostItem);
         
-        $postItemRequest = new PostItemRequest(
-            title: $cliPostItem->getTitle(), 
-            description: $cliPostItem->getDescription()
-        );
+        $postItemRequest = PostItemRequestDTO::cliToDomain($cliPostItem);
 
-        $this->useCase->execute($postItemRequest, $this->presenter);
+        var_dump($postItemRequest);die;
+
+        // $this->useCase->execute($postItemRequest, $this->presenter);
         
-        return $this->presenter->viewModel;
+        // return $this->presenter->viewModel;
     }
 
     

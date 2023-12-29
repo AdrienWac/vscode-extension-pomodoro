@@ -11,11 +11,12 @@ class PostItemSymfonyController implements PostItemInterface, ControllerInterfac
 {
     const SERVICE_TAG_INDEX = 'post_item_symfony';
     
-    public function __construct(protected UseCaseInterface $createItemUseCase, protected PostItemPresenterInterface $presenter)
-    {
-    }
+    public function __construct(
+        protected UseCaseInterface $createItemUseCase, 
+        // protected PostItemPresenterInterface $presenter
+    ){}
 
-    public function getIndex(): string
+    public static function getIndex(): string
     {
         return self::SERVICE_TAG_INDEX;
     }

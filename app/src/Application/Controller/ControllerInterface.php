@@ -8,5 +8,5 @@ interface ControllerInterface {
      *
      * @return string
      */
-    public function getIndex(): string;
+    public static function getIndex(): string;
 }
