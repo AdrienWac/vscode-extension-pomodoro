@@ -3,6 +3,7 @@
 namespace App\Application\Presenter;
 
 use App\Application\DTO\ItemDTO;
+use App\Application\Utils\ServiceCollectionAbstract;
 use App\Application\ViewModel\PostItemApiViewModel;
 use App\Domain\PostItemResponse;
 use App\Domain\Presenter\PostItemPresenterInterface;
@@ -11,8 +12,9 @@ use App\Domain\Presenter\PostItemPresenterInterface;
  * Transforme la Response venant du Domain en ViewModel utilisable 
  * par les View qui utilisent l'API. 
  */
-class PostItemApiPresenter implements PostItemPresenterInterface
+class PostItemApiPresenter extends ServiceCollectionAbstract implements PostItemPresenterInterface
 {
+    const SERVICE_TAG_INDEX = 'post_item_api';
 
     protected PostItemApiViewModel $viewModel;
 

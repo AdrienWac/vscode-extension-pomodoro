@@ -3,36 +3,42 @@
 namespace App\Application\Controller;
 
 use App\Application\DTO\PostItemRequestDTO;
-use App\Domain\Entity\PostItemRequest;
-use App\Domain\Presenter\PostItemPresenterInterface;
-use App\Domain\UseCase\UseCaseInterface;
+use App\Application\Presenter\PostItemCliPresenter;
+use App\Application\Utils\ServiceCollectionAbstract;
+use App\Domain\Presenter\PresenterCollectionInterface;
+use App\Domain\Presenter\PresenterInterface;
+use App\Domain\UseCase\CreateItem;
 
 /**
  * Porte d'entrée de l'application pour les commandes CLI Symfony de création d'item 
  */
-class PostItemSymfonyCliController implements PostItemInterface, ControllerInterface
+class PostItemSymfonyCliController extends ServiceCollectionAbstract implements PostItemInterface, ControllerInterface
 {
     const SERVICE_TAG_INDEX = 'post_item_symfony_cli';
 
-    public function __construct(
-        private readonly UseCaseInterface $useCase, 
-        // private readonly PostItemPresenterInterface $presenter
-    ){}
+    private PresenterInterface $presenter;
 
-    public static function getIndex(): string
+    public function __construct(
+        private readonly CreateItem $useCase, 
+        private readonly PresenterCollectionInterface $presenterCollection
+    )
     {
-        return self::SERVICE_TAG_INDEX;
+        $this->presenter = $presenterCollection->getPresenter(PostItemCliPresenter::SERVICE_TAG_INDEX);
     }
 
     public function create(object $cliPostItem)
     {
+        echo "-- Post item from CLI --";
         var_dump($cliPostItem);
-        
+        echo "------";
+
         $postItemRequest = PostItemRequestDTO::cliToDomain($cliPostItem);
 
-        var_dump($postItemRequest);die;
+        echo "-- Post item request from domain --";
+        var_dump($postItemRequest);
+        echo "------";
 
-        // $this->useCase->execute($postItemRequest, $this->presenter);
+        $this->useCase->execute($postItemRequest, $this->presenter);
         
         // return $this->presenter->viewModel;
     }
