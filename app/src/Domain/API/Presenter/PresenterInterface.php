@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Domain\Presenter;
+namespace App\Domain\API\Presenter;
 
 use App\Application\ViewModel\ViewModelInterface;
 

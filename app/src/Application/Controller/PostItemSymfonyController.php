@@ -4,7 +4,7 @@ namespace App\Application\Controller;
 
 use App\Application\Utils\ServiceCollectionAbstract;
 use App\Application\ViewModel\ViewModelInterface;
-use App\Domain\Presenter\PostItemPresenterInterface;
+use App\Domain\API\Presenter\PostItemPresenterInterface;
 use App\Domain\UseCase\CreateItem;
 use App\Domain\UseCase\UseCaseInterface;
 use Symfony\Component\HttpFoundation\Request;

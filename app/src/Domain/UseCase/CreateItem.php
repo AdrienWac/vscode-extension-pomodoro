@@ -5,7 +5,7 @@ namespace App\Domain\UseCase;
 use App\Domain\Entity\Item;
 use App\Domain\Entity\PostItemRequest;
 use App\Domain\PostItemResponse;
-use App\Domain\Presenter\PostItemPresenterInterface;
+use App\Domain\API\Presenter\PostItemPresenterInterface;
 
 class CreateItem implements UseCaseInterface
 {
@@ -22,6 +22,9 @@ class CreateItem implements UseCaseInterface
     echo "------";
     
     // Validate data of object domain
+
+    // Régle de validation du domaine
+
     // Repository save object
 
     $postItemResponse = new PostItemResponse($item, null);

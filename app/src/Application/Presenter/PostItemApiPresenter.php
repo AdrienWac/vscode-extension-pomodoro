@@ -7,7 +7,7 @@ use App\Application\Utils\ServiceCollectionAbstract;
 use App\Application\ViewModel\PostItemApiViewModel;
 use App\Application\ViewModel\ViewModelInterface;
 use App\Domain\PostItemResponse;
-use App\Domain\Presenter\PostItemPresenterInterface;
+use App\Domain\API\Presenter\PostItemPresenterInterface;
 
 /**
  * Transforme la Response venant du Domain en ViewModel utilisable 

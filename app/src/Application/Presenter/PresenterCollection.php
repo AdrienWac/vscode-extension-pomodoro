@@ -2,8 +2,8 @@
 
 namespace App\Application\Presenter;
 
-use App\Domain\Presenter\PresenterCollectionInterface;
-use App\Domain\Presenter\PresenterInterface;
+use App\Domain\API\Presenter\PresenterCollectionInterface;
+use App\Domain\API\Presenter\PresenterInterface;
 
 final class PresenterCollection implements PresenterCollectionInterface
 {

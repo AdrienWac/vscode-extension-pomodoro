@@ -6,8 +6,8 @@ use App\Application\DTO\PostItemRequestDTO;
 use App\Application\Presenter\PostItemCliPresenter;
 use App\Application\Utils\ServiceCollectionAbstract;
 use App\Application\ViewModel\ViewModelInterface;
-use App\Domain\Presenter\PresenterCollectionInterface;
-use App\Domain\Presenter\PresenterInterface;
+use App\Domain\API\Presenter\PresenterCollectionInterface;
+use App\Domain\API\Presenter\PresenterInterface;
 use App\Domain\UseCase\CreateItem;
 
 /**
