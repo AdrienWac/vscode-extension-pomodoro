@@ -3,7 +3,7 @@
 namespace App\Application\ViewModel;
 
 
-class ApiViewModel
+class ApiViewModel implements ViewModelInterface
 {
 
 }

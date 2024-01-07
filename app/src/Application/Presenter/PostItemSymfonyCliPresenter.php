@@ -4,7 +4,7 @@ namespace App\Application\Presenter;
 
 use App\Application\DTO\ItemDTO;
 use App\Application\Utils\ServiceCollectionAbstract;
-use App\Application\ViewModel\PostItemCliViewModel;
+use App\Application\ViewModel\PostItemSymfonyCliViewModel;
 use App\Application\ViewModel\ViewModelInterface;
 use App\Domain\PostItemResponse;
 use App\Domain\Presenter\PostItemPresenterInterface;
@@ -14,16 +14,15 @@ use App\Domain\Presenter\PresenterInterface;
  * Transforme la Response venant du Domain en ViewModel utilisable 
  * par les View qui utilisent la CLI. 
  */
-class PostItemCliPresenter extends ServiceCollectionAbstract implements PostItemPresenterInterface, PresenterInterface
+class PostItemSymfonyCliPresenter extends ServiceCollectionAbstract implements PostItemPresenterInterface
 {
 
-    const SERVICE_TAG_INDEX = 'post_item_cli';
+    protected PostItemSymfonyCliViewModel $viewModel;
 
-    public function __construct(protected PostItemCliViewModel $viewModel)
-    {}
+    const SERVICE_TAG_INDEX = 'post_item_symfony_cli';
 
     /**
-     * Transform object response from domain to object for Vue JS
+     * Transform object response from domain to object for Symfony Cli
      */
     public function present(PostItemResponse $response): void
     {   
@@ -38,5 +37,4 @@ class PostItemCliPresenter extends ServiceCollectionAbstract implements PostItem
     {
         return $this->viewModel;
     }
-
 }

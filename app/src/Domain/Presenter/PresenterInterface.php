@@ -2,6 +2,8 @@
 
 namespace App\Domain\Presenter;
 
+use App\Application\ViewModel\ViewModelInterface;
+
 interface PresenterInterface
 {
     /**
@@ -10,4 +12,6 @@ interface PresenterInterface
      * @return string
      */
     public static function getIndex(): string;
+
+    public function getViewModel(): ViewModelInterface;
 }

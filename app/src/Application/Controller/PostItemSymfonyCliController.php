@@ -5,6 +5,7 @@ namespace App\Application\Controller;
 use App\Application\DTO\PostItemRequestDTO;
 use App\Application\Presenter\PostItemCliPresenter;
 use App\Application\Utils\ServiceCollectionAbstract;
+use App\Application\ViewModel\ViewModelInterface;
 use App\Domain\Presenter\PresenterCollectionInterface;
 use App\Domain\Presenter\PresenterInterface;
 use App\Domain\UseCase\CreateItem;
@@ -26,7 +27,7 @@ class PostItemSymfonyCliController extends ServiceCollectionAbstract implements 
         $this->presenter = $presenterCollection->getPresenter(PostItemCliPresenter::SERVICE_TAG_INDEX);
     }
 
-    public function create(object $cliPostItem)
+    public function create(object $cliPostItem): ViewModelInterface
     {
         echo "-- Post item from CLI --";
         var_dump($cliPostItem);
@@ -40,7 +41,7 @@ class PostItemSymfonyCliController extends ServiceCollectionAbstract implements 
 
         $this->useCase->execute($postItemRequest, $this->presenter);
         
-        // return $this->presenter->viewModel;
+        return $this->presenter->getViewModel();
     }
 
     

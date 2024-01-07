@@ -6,9 +6,8 @@ use App\Domain\Entity\Item;
 
 class PostItemResponse 
 {
-    protected ?Error $error;
-
-    protected ?Item $item;
+    public function __construct(protected ?Item $item, protected ?Error $error)
+    {}
 
     public function getError(): ?Error
     {

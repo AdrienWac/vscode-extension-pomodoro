@@ -3,6 +3,7 @@
 namespace App\Application\Controller;
 
 use App\Application\Utils\ServiceCollectionAbstract;
+use App\Application\ViewModel\ViewModelInterface;
 use App\Domain\Presenter\PostItemPresenterInterface;
 use App\Domain\UseCase\CreateItem;
 use App\Domain\UseCase\UseCaseInterface;
@@ -17,7 +18,7 @@ class PostItemSymfonyController extends ServiceCollectionAbstract implements Pos
         // protected PostItemPresenterInterface $presenter
     ){}
 
-    public function create(object $externalRequest)
+    public function create(object $externalRequest): ViewModelInterface
     {
         // Création d'un obj PostItem interne depuis l'objet $request
         $internalRequest = new CreateItem(

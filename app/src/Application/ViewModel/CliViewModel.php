@@ -3,7 +3,7 @@
 namespace App\Application\ViewModel;
 
 
-class CliViewModel
+class CliViewModel implements ViewModelInterface
 {
 
 }
