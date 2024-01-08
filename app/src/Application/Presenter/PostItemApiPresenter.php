@@ -2,7 +2,7 @@
 
 namespace App\Application\Presenter;
 
-use App\Application\DTO\ItemDTO;
+use App\Application\Mapper\ItemMapper;
 use App\Application\Utils\ServiceCollectionAbstract;
 use App\Application\ViewModel\PostItemApiViewModel;
 use App\Application\ViewModel\ViewModelInterface;
@@ -24,7 +24,7 @@ class PostItemApiPresenter extends ServiceCollectionAbstract implements PostItem
      */
     public function present(PostItemResponse $response): void
     {
-        $this->viewModel->setItem(ItemDTO::domainToViewModel($response->getItem()));
+        $this->viewModel->setItem(ItemMapper::domainToViewModel($response->getItem()));
     }
 
     public function getViewModel(): ViewModelInterface

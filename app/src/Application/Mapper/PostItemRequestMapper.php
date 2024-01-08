@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Application\DTO;
+namespace App\Application\Mapper;
 
 use App\Domain\Entity\PostItemRequest;
 use App\UI\CLI\Command\PostItemRequestSymfonyCliModel;
 
-final class PostItemRequestDTO
+final class PostItemRequestMapper
 {
     /**
      * Transform Post Item Request Symfony CLI object to Post Item Request Domain

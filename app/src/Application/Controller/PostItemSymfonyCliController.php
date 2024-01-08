@@ -2,7 +2,7 @@
 
 namespace App\Application\Controller;
 
-use App\Application\DTO\PostItemRequestDTO;
+use App\Application\Mapper\PostItemRequestMapper;
 use App\Application\Presenter\PostItemCliPresenter;
 use App\Application\Utils\ServiceCollectionAbstract;
 use App\Application\ViewModel\ViewModelInterface;
@@ -33,7 +33,7 @@ class PostItemSymfonyCliController extends ServiceCollectionAbstract implements 
         var_dump($cliPostItem);
         echo "------";
 
-        $postItemRequest = PostItemRequestDTO::cliToDomain($cliPostItem);
+        $postItemRequest = PostItemRequestMapper::cliToDomain($cliPostItem);
 
         echo "-- Post item request from domain --";
         var_dump($postItemRequest);
