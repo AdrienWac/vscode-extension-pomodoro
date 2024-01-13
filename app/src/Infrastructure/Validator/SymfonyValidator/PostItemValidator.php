@@ -32,6 +32,25 @@ class PostItemValidator implements PostItemValidatorInterface
      */
     public function getErrors(): array
     {
-        return [];
+        if (!$this->hasErrors()) {
+            return [];   
+        }
+
+        $arrayErrorsForDomain = [];
+        foreach ($this->violations as $violation) {
+            $arrayErrorsForDomain[] = new Error(400, $violation->getMessage());
+        }
+
+        return $arrayErrorsForDomain;
+    }
+
+    /**
+     * Return if error has present
+     *
+     * @return boolean True if error is present. Otherwise false.
+     */
+    public function hasErrors(): bool
+    {
+        return count($this->violations) !== 0;
     }
 }

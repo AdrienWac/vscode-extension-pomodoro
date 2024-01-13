@@ -4,9 +4,8 @@ namespace App\Domain;
 
 final class Error
 {
-    protected int $code;
-
-    protected string $message;
+    public function __construct(protected int $code, protected string $message)
+    {}
 
     public function getCode(): int
     {
