@@ -2,7 +2,7 @@
 
 namespace App\Domain\API\Presenter;
 
-use App\Domain\PostItemResponse;
+use App\Domain\Entity\PostItemResponse;
 
 interface PostItemPresenterInterface extends PresenterInterface
 {

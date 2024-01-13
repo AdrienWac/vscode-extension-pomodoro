@@ -2,8 +2,8 @@
 
 namespace App\Infrastructure\Validator\SymfonyValidator;
 
+use App\Domain\Entity\Error;
 use App\Domain\Entity\PostItemRequest;
-use App\Domain\Error;
 use PostItemValidatorInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;

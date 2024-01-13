@@ -6,7 +6,7 @@ use App\Application\Mapper\ItemMapper;
 use App\Application\Utils\ServiceCollectionAbstract;
 use App\Application\ViewModel\PostItemApiViewModel;
 use App\Application\ViewModel\ViewModelInterface;
-use App\Domain\PostItemResponse;
+use App\Domain\Entity\PostItemResponse;
 use App\Domain\API\Presenter\PostItemPresenterInterface;
 
 /**

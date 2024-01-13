@@ -4,8 +4,8 @@ namespace App\Domain\UseCase;
 
 use App\Domain\Entity\Item;
 use App\Domain\Entity\PostItemRequest;
-use App\Domain\PostItemResponse;
 use App\Domain\API\Presenter\PostItemPresenterInterface;
+use App\Domain\Entity\PostItemResponse;
 use PostItemValidatorInterface;
 
 class CreateItem implements UseCaseInterface
@@ -15,8 +15,7 @@ class CreateItem implements UseCaseInterface
     // Validation de l'objet Request
     $postItemValidator->validate($postItemRequest);
     if ($postItemValidator->hasErrors()) {
-
-        // Return Response domain with Error
+        return new PostItemResponse(null, $postItemValidator->getErrors());
     }
 
     // Instanciate new Item object domain

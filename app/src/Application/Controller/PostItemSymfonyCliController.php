@@ -9,6 +9,7 @@ use App\Application\ViewModel\ViewModelInterface;
 use App\Application\Presenter\PostItemCliPresenter;
 use App\Domain\API\Presenter\PresenterCollectionInterface;
 use App\Application\Utils\ServiceCollectionAbstract;
+use PostItemValidatorInterface;
 
 /**
  * Porte d'entrée de l'application pour les commandes CLI Symfony de création d'item 
@@ -21,7 +22,8 @@ class PostItemSymfonyCliController extends ServiceCollectionAbstract implements 
 
     public function __construct(
         private readonly CreateItem $useCase, 
-        private readonly PresenterCollectionInterface $presenterCollection
+        private readonly PresenterCollectionInterface $presenterCollection,
+        private readonly PostItemValidatorInterface $postItemValidator
     )
     {
         $this->presenter = $presenterCollection->getPresenter(PostItemCliPresenter::SERVICE_TAG_INDEX);
@@ -39,7 +41,11 @@ class PostItemSymfonyCliController extends ServiceCollectionAbstract implements 
         var_dump($postItemRequest);
         echo "------";
 
-        $this->useCase->execute($postItemRequest, $this->presenter);
+        $this->useCase->execute(
+            $postItemRequest, 
+            $this->presenter, 
+            $this->postItemValidator
+        );
         
         return $this->presenter->getViewModel();
     }
