@@ -62,6 +62,11 @@ class CreateItemCommand extends Command
 
         $postItemSymfonyCliViewModel = $this->postItemController->create($postItemRequestSymfonyCli);
 
+        if ($postItemSymfonyCliViewModel->getHasError()) {
+            $io->error($postItemSymfonyCliViewModel->getErrorMessage());
+            return Command::FAILURE;
+        }
+
         $table = new Table($output);
         $table
             ->setHeaders(['ISBN', 'Title', 'Author'])

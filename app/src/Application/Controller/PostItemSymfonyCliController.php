@@ -9,7 +9,8 @@ use App\Application\ViewModel\ViewModelInterface;
 use App\Application\Presenter\PostItemCliPresenter;
 use App\Domain\API\Presenter\PresenterCollectionInterface;
 use App\Application\Utils\ServiceCollectionAbstract;
-use PostItemValidatorInterface;
+use App\Application\ViewModel\CliViewModel;
+use App\Domain\SPI\Validator\PostItemValidatorInterface;
 
 /**
  * Porte d'entrée de l'application pour les commandes CLI Symfony de création d'item 
@@ -26,10 +27,10 @@ class PostItemSymfonyCliController extends ServiceCollectionAbstract implements 
         private readonly PostItemValidatorInterface $postItemValidator
     )
     {
-        $this->presenter = $presenterCollection->getPresenter(PostItemCliPresenter::SERVICE_TAG_INDEX);
+        $this->presenter = $presenterCollection->getPresenter(self::SERVICE_TAG_INDEX);
     }
 
-    public function create(object $cliPostItem): ViewModelInterface
+    public function create(object $cliPostItem): CliViewModel
     {
         echo "-- Post item from CLI --";
         var_dump($cliPostItem);

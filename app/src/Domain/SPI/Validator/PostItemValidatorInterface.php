@@ -1,12 +1,7 @@
 <?php
 
-use App\Domain\Entity\PostItemRequest;
+namespace App\Domain\SPI\Validator;
 
-interface PostItemValidatorInterface
-{
-    public function validate(PostItemRequest $postItemRequest);
 
-    public function getErrors();
-
-    public function hasErrors(): bool;
-}
+interface PostItemValidatorInterface extends ValidatorInterface
+{}

@@ -3,8 +3,9 @@
 namespace App\Infrastructure\Validator\SymfonyValidator;
 
 use App\Domain\Entity\Error;
+use App\Domain\Entity\HTTPCodeEnum;
 use App\Domain\Entity\PostItemRequest;
-use PostItemValidatorInterface;
+use App\Domain\SPI\Validator\PostItemValidatorInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
@@ -16,6 +17,8 @@ class PostItemValidator implements PostItemValidatorInterface
 
     protected ConstraintViolationListInterface $violations;
 
+    const CODE_ERROR = 400;
+
     public function validate(PostItemRequest $postItemRequest)
     {
         $validator = Validation::createValidator();
@@ -26,22 +29,28 @@ class PostItemValidator implements PostItemValidatorInterface
     }
 
     /**
-     * Transforme les violations en tableau d'objet Error du Domaine
+     * Transforms violations into Domain Error object
+     * If errors, create message for each violations.
+     * Create object Error with concatenate message violation
+     * and use http error code from HTTPCodeEnum.
      *
-     * @return Error[] 
+     * @return Error|null Null if no error. Otherwise Error object.
      */
-    public function getErrors(): array
+    public function getError(): ?Error
     {
         if (!$this->hasErrors()) {
-            return [];   
+            return null;   
         }
 
-        $arrayErrorsForDomain = [];
+        $errorMessage = '';
         foreach ($this->violations as $violation) {
-            $arrayErrorsForDomain[] = new Error(400, $violation->getMessage());
+            $errorMessage .= "An error has occurred on the property {$violation->getPropertyPath()}. {$violation->getMessage()}.";
         }
 
-        return $arrayErrorsForDomain;
+        return new Error(
+            HTTPCodeEnum::HTTP_UNPROCESSABLE_ENTITY->value, 
+            $errorMessage
+        );
     }
 
     /**

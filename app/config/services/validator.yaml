@@ -1,0 +1,4 @@
+services:
+  App\Infrastructure\Validator\SymfonyValidator\PostItemValidator: ~
+
+  App\Domain\SPI\Validator\PostItemValidatorInterface: '@App\Infrastructure\Validator\SymfonyValidator\PostItemValidator'

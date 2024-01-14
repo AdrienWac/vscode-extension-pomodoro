@@ -16,22 +16,23 @@ use App\Domain\API\Presenter\PresenterInterface;
  */
 class PostItemSymfonyCliPresenter extends ServiceCollectionAbstract implements PostItemPresenterInterface
 {
-
-    protected PostItemSymfonyCliViewModel $viewModel;
-
     const SERVICE_TAG_INDEX = 'post_item_symfony_cli';
+
+    public function __construct(protected PostItemSymfonyCliViewModel $viewModel)
+    {}
 
     /**
      * Transform object response from domain to object for Symfony Cli
      */
     public function present(PostItemResponse $response): void
     {   
-        $hasErrors = !empty($response->getErrors());
+        $hasError = !is_null($response->getError());
 
-        $this->viewModel->setHasError($hasErrors);
+        $this->viewModel->setHasError($hasError);
 
-        if ($this->viewModel->getHasError()) {
-            $this->viewModel->setErrorMessage('A EDITER');
+        if ($hasError) {
+            $this->viewModel->setErrorMessage($response->getError()->getMessage());
+            $this->viewModel->setErrorCode($response->getError()->getCode());
         }
         
         if (!is_null($response->getItem())) {

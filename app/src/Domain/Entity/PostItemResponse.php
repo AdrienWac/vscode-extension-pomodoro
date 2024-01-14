@@ -8,17 +8,17 @@ class PostItemResponse
 {   
     /**
      * @param Item|null $item
-     * @param Error[]|null $errors
+     * @param Error|null $error
      */
-    public function __construct(protected ?Item $item, protected ?array $errors)
+    public function __construct(protected ?Item $item, protected ?Error $error)
     {}
     
     /**
-     * @return Error[]|null
+     * @return Error|null
      */
-    public function getErrors(): ?array
+    public function getError(): ?Error
     {
-        return $this->errors;
+        return $this->error;
     }
 
     /**
