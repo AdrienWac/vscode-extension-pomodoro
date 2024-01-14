@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Application\Controller;
+namespace App\Application\Controller\PostItem;
 
+use App\Application\Controller\ControllerInterface;
 use App\Domain\UseCase\CreateItem;
 use App\Domain\API\Presenter\PresenterInterface;
 use App\Application\Mapper\PostItemRequestMapper;
-use App\Application\ViewModel\ViewModelInterface;
-use App\Application\Presenter\PostItemCliPresenter;
 use App\Domain\API\Presenter\PresenterCollectionInterface;
 use App\Application\Utils\ServiceCollectionAbstract;
 use App\Application\ViewModel\CliViewModel;

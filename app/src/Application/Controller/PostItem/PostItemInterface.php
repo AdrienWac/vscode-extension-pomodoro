@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Application\Controller;
+namespace App\Application\Controller\PostItem;
 
 use App\Application\ViewModel\ViewModelInterface;
 use stdClass;
