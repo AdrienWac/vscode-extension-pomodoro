@@ -32,15 +32,7 @@ class PostItemSymfonyCliController extends ServiceCollectionAbstract implements 
 
     public function create(object $cliPostItem): CliViewModel
     {
-        echo "-- Post item from CLI --";
-        var_dump($cliPostItem);
-        echo "------";
-
         $postItemRequest = PostItemRequestMapper::cliToDomain($cliPostItem);
-
-        echo "-- Post item request from domain --";
-        var_dump($postItemRequest);
-        echo "------";
 
         $this->useCase->execute(
             $postItemRequest, 

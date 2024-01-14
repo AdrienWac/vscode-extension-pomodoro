@@ -29,7 +29,6 @@ class PostItemSymfonyController extends ServiceCollectionAbstract implements Pos
         // Execution du use case CreateItem
         // $this->createItemUseCase->execute();
         // Render du view model du presenter passer en argument
-        var_dump($externalRequest->getContent());die;
         // return new PostCreateItemResponse();
     }
 

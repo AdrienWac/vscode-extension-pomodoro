@@ -14,17 +14,25 @@ use Symfony\Component\Validator\Validation;
 
 class PostItemValidator implements PostItemValidatorInterface
 {
-
     protected ConstraintViolationListInterface $violations;
 
-    const CODE_ERROR = 400;
-
+    /**
+     * Instanciate new Validator from symfony component
+     * Add contrainst of validation on property of PostItemRequest Domain object.
+     * Then validate object and save violations.
+     * 
+     * @param PostItemRequest $postItemRequest
+     * @return void
+     * @todo Trouver un pattern plus propre pour cette fonctionnalité. Eviter d'avoir à 
+     * modifier cette méthode à chaque fois qu'on a un nouveau champ ou une nouvelle règle de validation
+     * métier.
+     */
     public function validate(PostItemRequest $postItemRequest)
     {
         $validator = Validation::createValidator();
         $this->violations = $validator->validate($postItemRequest->getTitle(), [
             new NotBlank(),
-            new Length(['min' => 50])
+            new Length(['min' => 50, 'minMessage' => 'The property Title value {{ value }} is too short.'])
         ]);
     }
 
@@ -44,7 +52,7 @@ class PostItemValidator implements PostItemValidatorInterface
 
         $errorMessage = '';
         foreach ($this->violations as $violation) {
-            $errorMessage .= "An error has occurred on the property {$violation->getPropertyPath()}. {$violation->getMessage()}.";
+            $errorMessage .= $violation->getMessage();
         }
 
         return new Error(

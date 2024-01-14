@@ -30,10 +30,6 @@ class CreateItem implements UseCaseInterface
             description: $postItemRequest->getDescription()
         );
 
-        echo "-- Item Domain Entity --";
-        var_dump($item);
-        echo "------";
-
         // Validate Item domain obj
 
         // Repository save object
