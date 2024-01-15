@@ -1,0 +1,80 @@
+openapi: 3.0.3
+info:
+  title: API REST Todo - OpenAPI 3.0
+  description: |-
+    Spec API pour le projet Todo.
+  version: 0.0.1
+servers:
+  - url: https://todo.adrienlambert.fr/api/v1
+tags:
+  - name: item
+    description: Operations on item of list
+  - name: list
+    description: Operations on list
+paths:
+  /item:
+    post:
+      tags:
+        - item
+      summary: Create item for a list
+      description: Add a new pet to the store
+      operationId: addPet
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    List:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of list
+          example: "Urgent tasks"
+    Item:
+      required:
+        - title
+        - list
+        - createdAt
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of item
+          example: Refactor code
+        description:
+          type: string
+          example: Refactor code with better pattern
+        list:
+          $ref: '#/components/schemas/List'
+        createdAt:
+          type: string
+          format: date-time
+          example: 2019-10-12T07:20:50.52Z
