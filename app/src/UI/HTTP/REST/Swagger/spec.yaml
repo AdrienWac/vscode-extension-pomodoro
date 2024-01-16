@@ -17,10 +17,10 @@ paths:
       tags:
         - item
       summary: Create item for a list
-      description: Add a new pet to the store
-      operationId: addPet
+      description: Create a new item to the list
+      operationId: createItem
       requestBody:
-        description: Create a new pet in the store
+        description: Create a new item in the list
         content:
           application/json:
             schema:
@@ -32,7 +32,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: '#/components/schemas/Item'
         '400':
           description: Invalid request
           content:
