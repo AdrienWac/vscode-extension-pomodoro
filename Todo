@@ -1,1 +1,13 @@
 - Package.sh => argument versionType => type de version X.Y.Z (# X => major # Y => minor # Z => patch). Récupère la valeur dans package.json et incrémente le bon numéro
+
+
+- Create new local git repo for api https://stackoverflow.com/questions/29994088/composer-require-local-package
+cd ~/src/Foo && git init && echo -e "vendor\ncomposer.lock" > .gitignore && git add ./ && git commit -m "Initial Commit"
+- Add this local repo into composer file
+"require": {
+    "sammitch/foo": "dev-master"
+},
+"repositories": [{
+    "type": "vcs",
+    "url": "/home/sammitch/src/Foo"
+}],
