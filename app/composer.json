@@ -30,7 +30,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "App\\UI\\HTTP\\REST\\": "src/UI/HTTP/REST/Swagger/out/php-symfony/"
         }
     },
     "autoload-dev": {

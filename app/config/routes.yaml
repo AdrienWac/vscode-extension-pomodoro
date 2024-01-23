@@ -1,3 +1,7 @@
 web_controllers:
     resource: '../src/UI/HTTP/Web/Controller/config'
     type: directory
+
+OpenApiBundle:
+    resource: '@OpenAPIServerBundle/Resources/config/routing.yaml'
+    prefix: /api
