@@ -41,3 +41,7 @@ services:
     
     App\Application\Presenter\PresenterCollection:
       arguments: [!tagged_iterator { tag: 'application.presenter', default_index_method: 'getIndex' }]
+
+    App\Application\Controller\PostItem\PostItemSymfonyApiController:
+      tags:
+        - {name: 'open_api_server.api', api: 'postItem'}

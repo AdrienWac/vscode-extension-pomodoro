@@ -15,7 +15,7 @@ paths:
   /item:
     post:
       tags:
-        - item
+        - post-item
       summary: Create item for a list
       description: Create a new item to the list
       operationId: createItem
@@ -24,7 +24,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Item'
+              $ref: '#/components/schemas/PostItemRequest'
         required: true
       responses:
         '200':
@@ -41,6 +41,13 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    PostItemRequest:
+      required:
+        - item
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/Item'
     Error:
       type: object
       properties:

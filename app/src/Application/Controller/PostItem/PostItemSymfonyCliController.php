@@ -29,7 +29,7 @@ class PostItemSymfonyCliController extends ServiceCollectionAbstract implements 
         $this->presenter = $presenterCollection->getPresenter(self::SERVICE_TAG_INDEX);
     }
 
-    public function create(object $cliPostItem): CliViewModel
+    public function createItem(object $cliPostItem): CliViewModel
     {
         $postItemRequest = PostItemRequestMapper::cliToDomain($cliPostItem);
 

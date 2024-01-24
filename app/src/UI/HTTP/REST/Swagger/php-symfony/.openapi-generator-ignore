@@ -1,0 +1,9 @@
+# OpenAPI Generator Ignore
+.coveralls.yml
+.gitignore
+.php_cs.dist
+.travis.yml
+autoload.php
+composer.json
+git_push.sh
+phpunit.xml.dist

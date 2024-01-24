@@ -21,7 +21,7 @@ class PostItemSymfonyController extends ServiceCollectionAbstract implements Pos
         private readonly PostItemValidatorInterface $postItemValidator
     ){}
 
-    public function create(object $cliPostItem): ViewModelInterface
+    public function createItem(object $cliPostItem): ViewModelInterface
     {
         $postItemRequest = PostItemRequestMapper::cliToDomain($cliPostItem);
 

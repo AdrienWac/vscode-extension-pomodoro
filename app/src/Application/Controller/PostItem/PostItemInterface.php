@@ -7,5 +7,5 @@ use stdClass;
 
 interface PostItemInterface
 {
-  public function create(object $externalRequest): ViewModelInterface;
+  public function createItem(object $externalRequest): ViewModelInterface;
 }
