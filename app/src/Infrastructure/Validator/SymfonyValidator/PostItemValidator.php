@@ -32,7 +32,6 @@ class PostItemValidator implements PostItemValidatorInterface
         $validator = Validation::createValidator();
         $this->violations = $validator->validate($postItemRequest->getTitle(), [
             new NotBlank(),
-            new Length(['min' => 50, 'minMessage' => 'The property Title value {{ value }} is too short.'])
         ]);
     }
 

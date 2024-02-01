@@ -6,7 +6,6 @@ use App\Application\ViewModel\ItemViewModel;
 use App\Domain\Entity\Item;
 use App\UI\HTTP\REST\Model\Item as ItemModelSymfonyApi;
 use App\UI\HTTP\REST\Model\ModelList;
-use DateTimeImmutable;
 
 /**
  * Transforme les objets Item.
@@ -39,7 +38,7 @@ class ItemMapper
             'list' => new ModelList(
                 ['name' => 'Lorem ipsum']
             ),
-            'createdAt' => new DateTimeImmutable()
+            'createdAt' => new \DateTime()
         ]);
     }
 }
