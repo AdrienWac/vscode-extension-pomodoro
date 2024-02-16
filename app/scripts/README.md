@@ -21,3 +21,8 @@ Jouer la commande suivante
 ``` bash
 ./build.sh -o src/UI/HTTP/REST/OpenApi -f common/OpenAPI/spec.yaml -g php-symfony -c common/OpenAPI/php-symfony/config.json
 ```
+### Options de la commande
+- -o chemin de stockage des fichiers générés
+- -f chemin du fichier de spec
+- -g utilisation du générateur 
+- -c chemin vers le fichier de config  
